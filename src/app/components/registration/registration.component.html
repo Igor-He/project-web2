@@ -1,0 +1,85 @@
+<div class="container">
+    <h1>Registracija</h1>
+    <h2 *ngIf="isRegister==true">You have successfully registered. Click <a routerLink="">here</a> to login.</h2>
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="username">Korisnicko ime</label>
+                <input type="text" id="username" placeholder="Unesite korisnicko ime" class="form-control" formControlName="username">
+                <div *ngIf="registrationForm.controls.username.invalid && registrationForm.controls.username.touched">
+                    Polje je obavezno!
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" placeholder="Unesite email" class="form-control" formControlName="email">
+                <div *ngIf="registrationForm.controls.email.invalid && registrationForm.controls.email.touched">
+                    Polje je obavezno!
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="password">Lozinka</label>
+                <input type="password" id="password" placeholder="Unesite lozinku" class="form-control" formControlName="password">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="name">Ime</label>
+                <input type="text" id="name" class="form-control" placeholder="Unesite ime" formControlName="name">
+                <div *ngIf="registrationForm.controls.name.invalid && registrationForm.controls.name.touched">
+                    Polje je obavezno!
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="surname">Prezime</label>
+                <input type="text" id="surname" class="form-control" placeholder="Unesite prezime" formControlName="surname">
+                <div *ngIf="registrationForm.controls.surname.invalid && registrationForm.controls.surname.touched">
+                    Polje je obavezno!
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="dateOfBirth">Datum rodjenja</label>
+                <input type="date" id="dateOfBirth" class="form-control" placeholder="Unesite datum rodjenja" formControlName="dateOfBirth">
+                <div *ngIf="registrationForm.controls.dateOfBirth.invalid && registrationForm.controls.dateOfBirth.touched">
+                    Polje je obavezno!
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="address">Adresa</label>
+                <input type="text" id="address" class="form-control" placeholder="Unesite adresu" formControlName="address">
+                <div *ngIf="registrationForm.controls.address.invalid && registrationForm.controls.address.touched">
+                    Polje je obavezno!
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group" >
+                <label for="type">Tip korisnika</label>
+                <select class="form-control"  formControlName="type">
+                    <option *ngFor="let option of list" [value]="option" [selected]="list[0]">{{option}}</option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-1">
+                <button [disabled]="!registrationForm.valid" class="btn btn-success" type="submit">Add</button>
+            </div>
+            <div class="col-1">
+                <button class="btn btn-primary" (click)="onClear()" type="button">Clear</button>
+            </div>
+        </div>
+    </form>
+
+</div>
