@@ -1,0 +1,27 @@
+<div class="profile">
+    <figure>
+      <img src="{{user.imagePath}}" width="300" 
+      height="300" alt="" />
+    </figure>
+    <header>
+      <h1>{{user.username}}
+        <small>{{user.type}}</small></h1>
+    </header>
+    
+    <main>
+      <dl>
+        <dt>Ime i prezime</dt>
+          <dd>{{user.name}}</dd>
+        <dt>Datum rodjenja</dt>
+          <dd>{{user.dateOfBirth.toDateString()}}</dd>
+        <dt>Adresa</dt>
+          <dd>{{user.address}}</dd>
+        <dt>Email</dt>
+          <dd>{{user.email}}</dd>
+        <dt>Sifra</dt>
+          <dd>{{user.password}}</dd>        
+      </dl>
+    </main>
+  
+  </div> 
+  

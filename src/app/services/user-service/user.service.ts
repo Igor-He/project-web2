@@ -17,7 +17,7 @@ export class UserService {
     return this.listUsers;
   }
   mockedUsers(){
-    const u1=new User('admin', 'igor@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Administrator);
+    const u1=new User('admin', 'igor@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Administrator, 'assets/images/Gull_portrait_ca_usa.jpg');
     this.listUsers.push(u1);
   }
 
@@ -33,6 +33,7 @@ export class UserService {
           check=true;
           if(x.type==UserType.Administrator){
             localStorage.setItem('sessionUserRole', JSON.stringify('ADMIN'));
+            localStorage.setItem('sessionName', JSON.stringify(password));
           }
           
         }
@@ -41,4 +42,15 @@ export class UserService {
     });
     return check;
   }
+  newUser(user: User): Boolean{
+    let check=true;
+    this.listUsers.forEach(x => {
+      if(x.username==user.username){
+        check=false;
+      }
+    });
+    this.createUser(user);
+    return check;
+  }
+
 }

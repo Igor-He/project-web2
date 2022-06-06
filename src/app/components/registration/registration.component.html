@@ -25,6 +25,9 @@
             <div class="col-sm-6 form-group">
                 <label for="password">Lozinka</label>
                 <input type="password" id="password" placeholder="Unesite lozinku" class="form-control" formControlName="password">
+                <div *ngIf="registrationForm.controls.password.invalid && registrationForm.controls.password.touched">
+                    Polje je obavezno!
+                </div>
             </div>
         </div>
         <div class="row">
@@ -66,9 +69,12 @@
         <div class="row">
             <div class="col-sm-6 form-group" >
                 <label for="type">Tip korisnika</label>
-                <select class="form-control"  formControlName="type">
-                    <option *ngFor="let option of list" [value]="option" [selected]="list[0]">{{option}}</option>
+                <select class="form-control"  formControlName="type" >
+                    <option *ngFor="let option of list" [value]="option" >{{option}}</option>
                 </select>
+                <div *ngIf="registrationForm.controls.type.invalid && registrationForm.controls.type.touched">
+                    Polje je obavezno!
+                </div>
             </div>
         </div>
         <br>
