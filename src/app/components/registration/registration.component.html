@@ -30,6 +30,15 @@
                 </div>
             </div>
         </div>
+        <!-- <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="confirm_password">Potvrda lozinke</label>
+                <input type="password" id="confirm_password" placeholder="Potvdrite lozinku" class="form-control" formControlName="confirm_password">
+                <div *ngIf="registrationForm.controls.confirm_password.invalid && registrationForm.controls.confirm_password.touched">
+                    Polje je obavezno!
+                </div>
+            </div>
+        </div> -->
         <div class="row">
             <div class="col-sm-6 form-group">
                 <label for="name">Ime</label>
@@ -75,6 +84,15 @@
                 <div *ngIf="registrationForm.controls.type.invalid && registrationForm.controls.type.touched">
                     Polje je obavezno!
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="image">Slika</label>
+                <input type="file" id="image" class="form-control" placeholder="Unesite adresu" formControlName="image">
+                <!-- <div *ngIf="registrationForm.controls.address.invalid && registrationForm.controls.address.touched">
+                    Polje je obavezno!
+                </div> -->
             </div>
         </div>
         <br>

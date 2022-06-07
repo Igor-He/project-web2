@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { User } from 'src/app/entities/user';
 import { UserType } from 'src/app/entities/user-type.enum';
 import { UserService } from 'src/app/services/user-service/user.service';
+
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
+
 })
 export class RegistrationComponent implements OnInit {
 
@@ -34,8 +36,11 @@ export class RegistrationComponent implements OnInit {
       'surname': new FormControl(null, [Validators.required]),
       'dateOfBirth': new FormControl(null, [Validators.required]),
       'address': new FormControl(null, [Validators.required]),
-      'type': new FormControl(UserType.Potrosac, Validators.required)
-    });
+      'type': new FormControl(UserType.Potrosac, Validators.required),
+      'image': new FormControl(),
+      //'confirm_password' : new FormControl(null, [Validators.required])
+    }
+    );
   }
 
   onSubmit() {
@@ -47,7 +52,9 @@ export class RegistrationComponent implements OnInit {
     const dateOfBirth=this.registrationForm.controls['dateOfBirth'].value;
     const address=this.registrationForm.controls['address'].value;
     const type=this.registrationForm.controls['type'].value;
-    const user=new User(username, email, password, name, surname, dateOfBirth, address, type, 'assets/images/Gull_portrait_ca_usa.jpg');
+    const imagePath=this.registrationForm.controls['image'].value;
+    console.log(this.registrationForm.controls['image'].value);
+    const user=new User(username, email, password, name, surname, dateOfBirth, address, type, 'assets/images/Gull_portrait_ca_usa.jpg', false);
     this.isRegister=this.userService.newUser(user);
     this.onClear();
   }

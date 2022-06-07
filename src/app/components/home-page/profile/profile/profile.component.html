@@ -1,27 +1,79 @@
-<div class="profile">
-    <figure>
-      <img src="{{user.imagePath}}" width="300" 
-      height="300" alt="" />
-    </figure>
-    <header>
-      <h1>{{user.username}}
-        <small>{{user.type}}</small></h1>
-    </header>
-    
-    <main>
-      <dl>
-        <dt>Ime i prezime</dt>
-          <dd>{{user.name}}</dd>
-        <dt>Datum rodjenja</dt>
-          <dd>{{user.dateOfBirth.toDateString()}}</dd>
-        <dt>Adresa</dt>
-          <dd>{{user.address}}</dd>
-        <dt>Email</dt>
-          <dd>{{user.email}}</dd>
-        <dt>Sifra</dt>
-          <dd>{{user.password}}</dd>        
-      </dl>
-    </main>
-  
-  </div> 
-  
+<form [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+        <div class="col-sm-6 form-group">
+            <label for="username">Korisnicko ime</label>
+            <input type="text" [readonly]="isReadOnly"  id="username" placeholder="Unesite korisnicko ime" class="form-control" formControlName="username">
+            <div *ngIf="updateProfileForm.controls.username.invalid && updateProfileForm.controls.username.touched">
+                Polje je obavezno!
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-6 form-group">
+            <label for="email">E-mail</label>
+            <input type="email" [readonly]="isReadOnly" id="email" placeholder="Unesite email" class="form-control" formControlName="email">
+            <div *ngIf="updateProfileForm.controls.email.invalid && updateProfileForm.controls.email.touched">
+                Polje je obavezno!
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 form-group">
+            <label for="name">Ime</label>
+            <input type="text" [readonly]="isReadOnly" id="name" class="form-control"  placeholder="Unesite ime" formControlName="name">
+            <div *ngIf="updateProfileForm.controls.name.invalid && updateProfileForm.controls.name.touched">
+                Polje je obavezno!
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 form-group">
+            <label for="surname">Prezime</label>
+            <input type="text" [readonly]="isReadOnly" id="surname" class="form-control" placeholder="Unesite prezime" formControlName="surname">
+            <div *ngIf="updateProfileForm.controls.surname.invalid && updateProfileForm.controls.surname.touched">
+                Polje je obavezno!
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 form-group">
+            <label for="dateOfBirth">Datum rodjenja</label>
+            <input type="date" [readonly]="isReadOnly" id="dateOfBirth" class="form-control" placeholder="Unesite datum rodjenja" formControlName="dateOfBirth">
+            <div *ngIf="updateProfileForm.controls.dateOfBirth.invalid && updateProfileForm.controls.dateOfBirth.touched">
+                Polje je obavezno!
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 form-group">
+            <label for="address">Adresa</label>
+            <input type="text" [readonly]="isReadOnly"  id="address" class="form-control" placeholder="Unesite adresu" formControlName="address">
+            <div *ngIf="updateProfileForm.controls.address.invalid && updateProfileForm.controls.address.touched">
+                Polje je obavezno!
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 form-group" >
+            <label for="type">Tip korisnika</label>
+            <input type="text" id="type" class="form-control" readonly formControlName="type">
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 form-group">
+            <label for="image">Slika</label>
+            <input type="file" id="image" class="form-control" placeholder="Unesite adresu" formControlName="image">
+            <!-- <div *ngIf="registrationForm.controls.address.invalid && registrationForm.controls.address.touched">
+                Polje je obavezno!
+            </div> -->
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-1">
+            <button [disabled]="!updateProfileForm.valid" class="btn btn-success" type="submit">Add</button>
+        </div>
+    </div>
+</form>
