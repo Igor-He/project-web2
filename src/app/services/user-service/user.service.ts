@@ -53,5 +53,16 @@ export class UserService {
     this.createUser(user);
     return check;
   }
+  editUser(user: User): Boolean{
+    let done=false;
+    this.listUsers.forEach(x => {
+      if(x.email==user.email){
+        let index=this.listUsers.indexOf(x);
+        this.listUsers[index]=user;
+        done=true;
+      }
+    });
+    return done;
+  }
 
 }

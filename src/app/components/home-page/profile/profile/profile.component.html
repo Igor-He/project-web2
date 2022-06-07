@@ -12,10 +12,7 @@
     <div class="row">
         <div class="col-sm-6 form-group">
             <label for="email">E-mail</label>
-            <input type="email" [readonly]="isReadOnly" id="email" placeholder="Unesite email" class="form-control" formControlName="email">
-            <div *ngIf="updateProfileForm.controls.email.invalid && updateProfileForm.controls.email.touched">
-                Polje je obavezno!
-            </div>
+            <input type="email" readonly id="email" placeholder="Unesite email" class="form-control" formControlName="email">
         </div>
     </div>
     <div class="row">
@@ -39,7 +36,7 @@
     <div class="row">
         <div class="col-sm-6 form-group">
             <label for="dateOfBirth">Datum rodjenja</label>
-            <input type="date" [readonly]="isReadOnly" id="dateOfBirth" class="form-control" placeholder="Unesite datum rodjenja" formControlName="dateOfBirth">
+            <input type="date" [readonly]="isReadOnly" id="dateOfBirth" value="{{ user.dateOfBirth }}" class="form-control"  placeholder="Unesite datum rodjenja" formControlName="dateOfBirth">
             <div *ngIf="updateProfileForm.controls.dateOfBirth.invalid && updateProfileForm.controls.dateOfBirth.touched">
                 Polje je obavezno!
             </div>
@@ -72,8 +69,11 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-1">
-            <button [disabled]="!updateProfileForm.valid" class="btn btn-success" type="submit">Add</button>
+        <div [hidden]="!isReadOnly"  class="col-1">
+            <button  class="btn btn-success" (click)="onEdit()" type="button">Izmeni</button>
+        </div>
+        <div *ngIf="!isReadOnly" class="col-2">
+            <button [disabled]="!updateProfileForm.valid || isReadOnly==true " class="btn btn-success" type="submit">Sacuvaj izmene</button>
         </div>
     </div>
 </form>
