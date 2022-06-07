@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { VerificationComponent } from './components/home-page/admin/verification/verification.component';
 import { HomePageComponent } from './components/home-page/home-page/home-page.component';
 import { ProfileComponent } from './components/home-page/profile/profile/profile.component';
 import { LoginComponent } from './components/login/login.component';
@@ -26,6 +27,10 @@ const routes: Routes = [
     path: "profile",
     component:  ProfileComponent,
     canActivate: [AdminGuard, CustomerGuard, DelivererGuard]
+  },
+  {
+    path: "verification",
+    component: VerificationComponent
   }
 ];
 

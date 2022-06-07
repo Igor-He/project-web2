@@ -63,7 +63,7 @@ onSubmit(){
   const address=this.updateProfileForm.controls['address'].value;
   const type=this.updateProfileForm.controls['type'].value;
   // const imagePath=this.updateProfileForm.controls['image'].value;
-  const user=new User(username, email, password, name, surname, dateOfBirth, address, type, 'assets/images/Gull_portrait_ca_usa.jpg', false);
+  const user=new User(username, email, password, name, surname, dateOfBirth, address, type, 'assets/images/Gull_portrait_ca_usa.jpg', this.user.status);
   this.isUpdated=this.userService.editUser(user);
   this.isReadOnly=true;
 }

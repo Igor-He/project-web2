@@ -1,0 +1,42 @@
+<div id="container"  style="margin-left: 15px; margin-right: 15px; margin-top: 15px;">
+    <hr/>
+    <h3 style="text-align: center;">Svi dostavljaci</h3>
+    <div class="row">
+        <div class="col-2">
+            <u><a role="button" (click)="all()" data-toggle="modal" data-target=".bs-example-modal-sm" aria-hidden="true">Svi dostavljaci</a></u>
+        </div>
+        <div class="col-2">
+            <u><a role="button" (click)="onlyApproved()" data-toggle="modal" data-target=".bs-example-modal-sm" aria-hidden="true">Samo odobreni</a></u>
+        </div>
+       
+    </div>
+    <div id="table" >
+    <table style="margin-top: 15px;" class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Password</th>
+                <th scope="col">Status</th>
+                <th colspan="2"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of list">
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.status}}</td>
+                <td >
+                    <button *ngIf="user.status=='Processing'" (click)="approveUser(user.email)" class="btn btn-primary" >
+                        Approve
+                    </button>
+                </td>
+                <td >
+                    <button *ngIf="user.status=='Processing'" (click)="rejectUser(user.email)" class="btn btn-primary" >
+                        Deny
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>

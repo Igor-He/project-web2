@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { User } from 'src/app/entities/user';
+import { UserStatus } from 'src/app/entities/user-status.enum';
 import { UserType } from 'src/app/entities/user-type.enum';
 import { UserService } from 'src/app/services/user-service/user.service';
 
@@ -54,7 +55,13 @@ export class RegistrationComponent implements OnInit {
     const type=this.registrationForm.controls['type'].value;
     const imagePath=this.registrationForm.controls['image'].value;
     console.log(this.registrationForm.controls['image'].value);
-    const user=new User(username, email, password, name, surname, dateOfBirth, address, type, 'assets/images/Gull_portrait_ca_usa.jpg', false);
+    let userStatus;
+    if(type==UserType.Dostavljac){
+      userStatus=UserStatus.Processing;
+    }else{
+      userStatus=UserStatus.Approved;
+    }
+    const user=new User(username, email, password, name, surname, dateOfBirth, address, type, 'assets/images/Gull_portrait_ca_usa.jpg', userStatus);
     this.isRegister=this.userService.newUser(user);
     this.onClear();
   }

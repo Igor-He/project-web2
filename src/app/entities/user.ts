@@ -1,3 +1,4 @@
+import { UserStatus } from "./user-status.enum";
 import { UserType } from "./user-type.enum";
 
 export class User {
@@ -11,10 +12,10 @@ export class User {
     address: string;
     type: UserType;
     imagePath: string;
-    isApproved: boolean;
+    status: UserStatus;
 
     
-    constructor(username: string='', email: string='', password: string='', name: string='', surname: string='', dateOfBirth: Date=new Date(), address: string='', type: UserType=UserType.Potrosac, imagePath: string='', isApproved: boolean=false){
+    constructor(username: string='', email: string='', password: string='', name: string='', surname: string='', dateOfBirth: Date=new Date(), address: string='', type: UserType=UserType.Potrosac, imagePath: string='', status: UserStatus=UserStatus.Processing){
         this.id=0;
         this.username=username;
         this.email=email;
@@ -25,6 +26,6 @@ export class User {
         this.address=address;
         this.type=type;
         this.imagePath=imagePath;
-        this.isApproved=isApproved;
+        this.status=status;
     }
 }
