@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, AbstractControl, ValidatorFn } from '@angular/forms';
-import { User } from 'src/app/entities/user';
-import { UserStatus } from 'src/app/entities/user-status.enum';
-import { UserType } from 'src/app/entities/user-type.enum';
+import { User } from 'src/app/entities/user/user';
+import { UserStatus } from 'src/app/entities/enums/user-status.enum';
+import { UserType } from 'src/app/entities/enums/user-type.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +45,12 @@ export class UserService {
           check=true;
           if(x.type==UserType.Administrator){
             localStorage.setItem('sessionUserRole', JSON.stringify('ADMIN'));
+            localStorage.setItem('sessionName', JSON.stringify(username));
+          }else if(x.type==UserType.Potrosac){
+            localStorage.setItem('sessionUserRole', JSON.stringify('POTROSAC'));
+            localStorage.setItem('sessionName', JSON.stringify(username));
+          }else if(x.type==UserType.Dostavljac){
+            localStorage.setItem('sessionUserRole', JSON.stringify('DOSTAVLJAC'));
             localStorage.setItem('sessionName', JSON.stringify(username));
           }
           

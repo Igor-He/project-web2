@@ -1,9 +1,6 @@
-import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { User } from 'src/app/entities/user';
-import { UserType } from 'src/app/entities/user-type.enum';
+import { User } from 'src/app/entities/user/user';
 import { UserService } from 'src/app/services/user-service/user.service';
 
 @Component({

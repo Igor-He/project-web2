@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { User } from 'src/app/entities/user';
-import { UserStatus } from 'src/app/entities/user-status.enum';
-import { UserType } from 'src/app/entities/user-type.enum';
+import { User } from 'src/app/entities/user/user';
+import { UserStatus } from 'src/app/entities/enums/user-status.enum';
+import { UserType } from 'src/app/entities/enums/user-type.enum';
 import { UserService } from 'src/app/services/user-service/user.service';
 
 

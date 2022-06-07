@@ -21,12 +21,12 @@ const routes: Routes = [
   {
     path: "home",
     component: HomePageComponent,
-    canActivate: [AdminGuard, CustomerGuard, DelivererGuard]
+    //canActivate: [AdminGuard, CustomerGuard, DelivererGuard]
   },
   {
     path: "profile",
     component:  ProfileComponent,
-    canActivate: [AdminGuard, CustomerGuard, DelivererGuard]
+    //canActivate: [AdminGuard, CustomerGuard, DelivererGuard]
   },
   {
     path: "verification",

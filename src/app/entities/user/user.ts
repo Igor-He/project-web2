@@ -1,5 +1,5 @@
-import { UserStatus } from "./user-status.enum";
-import { UserType } from "./user-type.enum";
+import { UserStatus } from "../enums/user-status.enum";
+import { UserType } from "../enums/user-type.enum";
 
 export class User {
     id: number;
