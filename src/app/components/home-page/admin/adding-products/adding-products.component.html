@@ -1,0 +1,44 @@
+<div class="container">
+    <h1>Dodavanje proizvoda</h1>
+    <h2 *ngIf="isAdded==true">Uspesno ste dodali proizvod.Klikni<a routerLink="/home"> ovde</a> za povratak.</h2>
+    <form [formGroup]="newProductForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="name">Naziv</label>
+                <input type="text" id="name" placeholder="Unesite naziv" class="form-control" formControlName="name">
+                <div *ngIf="newProductForm.controls.name.invalid && newProductForm.controls.name.touched">
+                    Polje je obavezno!
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="price">Cena</label>
+                <input type="number" id="price" placeholder="Unesite cenu" class="form-control" formControlName="price">
+                <div *ngIf="newProductForm.controls.price.invalid && newProductForm.controls.price.touched">
+                    Polje je obavezno!
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                <label for="ingredients">Sastojci</label>
+                <input width="40" type="text" id="ingredients" placeholder="Unesite lozinku" class="form-control" formControlName="ingredients">
+                <div *ngIf="newProductForm.controls.ingredients.invalid && newProductForm.controls.ingredients.touched">
+                    Polje je obavezno!
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-1">
+                <button [disabled]="!newProductForm.valid" class="btn btn-success" type="submit">Add</button>
+            </div>
+            <div class="col-1">
+                <button class="btn btn-primary" (click)="onClear()" type="button">Clear</button>
+            </div>
+        </div>
+    </form>
+
+</div>

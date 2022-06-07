@@ -10,6 +10,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { HomePageComponent } from './components/home-page/home-page/home-page.component';
 import { ProfileComponent } from './components/home-page/profile/profile/profile.component';
 import { VerificationComponent } from './components/home-page/admin/verification/verification.component';
+import { AddingProductsComponent } from './components/home-page/admin/adding-products/adding-products.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { VerificationComponent } from './components/home-page/admin/verification
     RegistrationComponent,
     HomePageComponent,
     ProfileComponent,
-    VerificationComponent
+    VerificationComponent,
+    AddingProductsComponent
   ],
   imports: [
     BrowserModule,

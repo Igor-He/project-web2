@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AddingProductsComponent } from './components/home-page/admin/adding-products/adding-products.component';
 import { VerificationComponent } from './components/home-page/admin/verification/verification.component';
 import { HomePageComponent } from './components/home-page/home-page/home-page.component';
 import { ProfileComponent } from './components/home-page/profile/profile/profile.component';
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: "verification",
     component: VerificationComponent
+  },
+  {
+    path:"add-new-product",
+    component: AddingProductsComponent
   }
 ];
 
