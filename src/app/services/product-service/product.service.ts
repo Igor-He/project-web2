@@ -8,13 +8,13 @@ export class ProductService {
   listProducts: Array<Product>;
   constructor() { 
     this.listProducts=new Array<Product>();
-    this.mockedUsers();
+    this.mockedProducts();
   }
 
   loadProducts(): Array<Product>{
     return this.listProducts;
   }
-  mockedUsers(){
+  mockedProducts(){
     const p1=new Product('Pizza', 200, 'Pelat, sir, sunka');
     const p2=new Product('Pasta', 200, 'Pelat, sir, sunka');
     const p3=new Product('Burger', 200, 'Pelat, sir, sunka');
@@ -27,5 +27,15 @@ export class ProductService {
 
   createProduct(p: Product){
     this.listProducts.push(p);
-}
+  }
+  
+  findProduct(name: string): Product{
+    let product=new Product();
+    this.listProducts.forEach(x => {
+      if(x.name==name){
+        product=x;
+      }
+    });
+    return product;
+  }
 }
