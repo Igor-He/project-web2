@@ -11,6 +11,9 @@ import { HomePageComponent } from './components/home-page/home-page/home-page.co
 import { ProfileComponent } from './components/home-page/profile/profile/profile.component';
 import { VerificationComponent } from './components/home-page/admin/verification/verification.component';
 import { AddingProductsComponent } from './components/home-page/admin/adding-products/adding-products.component';
+import { NewCurrentOrderComponent } from './components/home-page/customer/new-current-order/new-current-order.component';
+import { NewOrderComponent } from './components/home-page/customer/new-order/new-order.component';
+import { CurrentOrderComponent } from './components/home-page/customer/current-order/current-order.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { AddingProductsComponent } from './components/home-page/admin/adding-pro
     HomePageComponent,
     ProfileComponent,
     VerificationComponent,
-    AddingProductsComponent
+    AddingProductsComponent,
+    NewCurrentOrderComponent,
+    NewOrderComponent,
+    CurrentOrderComponent
   ],
   imports: [
     BrowserModule,
