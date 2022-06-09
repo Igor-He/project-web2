@@ -24,7 +24,11 @@ export class OrderService {
     let date: Date=new Date();    
     date.setMinutes(date.getMinutes()+2);
     const o1=new Order(1, prodOrders, 'Cvecarska 2a', '', 1790, -1, 1, OrderStatus.OnTheWay, date);
+    const o2=new Order(2, prodOrders, 'Cvecarska 2a', '', 1790, -1, 1, OrderStatus.Delivered, date);
+    const o3=new Order(3, prodOrders, 'Cvecarska 2a', '', 2590, -1, 1, OrderStatus.Delivered, date);
     this.listOrders.push(o1);
+    this.listOrders.push(o2);
+    this.listOrders.push(o3);
   }
   createOrder(o: Order){
     this.listOrders.push(o);
@@ -38,5 +42,16 @@ export class OrderService {
     });
 
     return order;
+  }
+
+  allOrdersCustomer(userId: number): Array<Order>{
+    let list: Array<Order>=new Array<Order>();
+    this.listOrders.forEach(x => {
+      if(x.customerId==userId && x.status==OrderStatus.Delivered){
+        list.push(x);
+      }
+      
+    });
+    return list;
   }
 }
