@@ -19,12 +19,12 @@ export class UserService {
     return this.listUsers;
   }
   mockedUsers(){
-    const u1=new User('admin', 'igor@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Administrator, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Approved);
-    const u2=new User('del1', 'del1@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
-    const u3=new User('del2', 'del2@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
-    const u4=new User('del3', 'del3@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
-    const u5=new User('del4', 'del4@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
-    const u6=new User('del5', 'del5@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
+    const u1=new User(1,'admin', 'igor@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Administrator, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Approved);
+    const u2=new User(2,'del1', 'del1@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
+    const u3=new User(3,'del2', 'del2@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
+    const u4=new User(4,'del3', 'del3@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
+    const u5=new User(5,'del4', 'del4@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
+    const u6=new User(6, 'del5', 'del5@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
     this.listUsers.push(u1);
     this.listUsers.push(u2);
     this.listUsers.push(u3);
@@ -45,13 +45,13 @@ export class UserService {
           check=true;
           if(x.type==UserType.Administrator){
             localStorage.setItem('sessionUserRole', JSON.stringify('ADMIN'));
-            localStorage.setItem('sessionName', JSON.stringify(username));
+            localStorage.setItem('sessionId', JSON.stringify(x.id));
           }else if(x.type==UserType.Potrosac){
             localStorage.setItem('sessionUserRole', JSON.stringify('POTROSAC'));
-            localStorage.setItem('sessionName', JSON.stringify(username));
+            localStorage.setItem('sessionId', JSON.stringify(x.id));
           }else if(x.type==UserType.Dostavljac){
             localStorage.setItem('sessionUserRole', JSON.stringify('DOSTAVLJAC'));
-            localStorage.setItem('sessionName', JSON.stringify(username));
+            localStorage.setItem('sessionId', JSON.stringify(x.id));
           }
           
         }
@@ -73,7 +73,7 @@ export class UserService {
   editUser(user: User): Boolean{
     let done=false;
     this.listUsers.forEach(x => {
-      if(x.email==user.email){
+      if(x.id==user.id){
         let index=this.listUsers.indexOf(x);
         this.listUsers[index]=user;
         done=true;
@@ -91,20 +91,20 @@ export class UserService {
     return list;
   }
 
-  approveUser(email: string): boolean{
+  approveUser(id: number): boolean{
     let check=false;
     this.listUsers.forEach(x => {
-      if(x.email==email){
+      if(x.id==id){
         let index=this.listUsers.indexOf(x);
         this.listUsers[index].status=UserStatus.Approved;
       }
     });
     return check;
   }
-  rejectUser(email: string): boolean{
+  rejectUser(id: number): boolean{
     let check=false;
     this.listUsers.forEach(x => {
-      if(x.email==email){
+      if(x.id==id){
         let index=this.listUsers.indexOf(x);
         this.listUsers[index].status=UserStatus.Reject;
       }

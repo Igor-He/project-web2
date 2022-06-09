@@ -18,8 +18,8 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const userUsername = JSON.parse(localStorage.getItem('sessionName') || '{}');
-    this.user=this.userService.listUsers.find(x=>x.username==userUsername) || new User();
+    const userId = JSON.parse(localStorage.getItem('sessionId') || '{}');
+    this.user=this.userService.listUsers.find(x=>x.id==userId) || new User();
     this.initForm();
   }
 
@@ -60,7 +60,7 @@ onSubmit(){
   const address=this.updateProfileForm.controls['address'].value;
   const type=this.updateProfileForm.controls['type'].value;
   // const imagePath=this.updateProfileForm.controls['image'].value;
-  const user=new User(username, email, password, name, surname, dateOfBirth, address, type, 'assets/images/Gull_portrait_ca_usa.jpg', this.user.status);
+  const user=new User(this.user.id, username, email, password, name, surname, dateOfBirth, address, type, 'assets/images/Gull_portrait_ca_usa.jpg', this.user.status);
   this.isUpdated=this.userService.editUser(user);
   this.isReadOnly=true;
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OrderStatus } from 'src/app/entities/enums/order-status.enum';
 import { Order } from 'src/app/entities/order/order';
 import { ProductOrder } from 'src/app/entities/product-order/product-order';
 import { Product } from 'src/app/entities/product/product';
@@ -22,8 +23,8 @@ export class NewOrderComponent implements OnInit {
   constructor(private productService:ProductService, private userService:UserService, private orderService:OrderService) { }
 
   ngOnInit(): void {
-    const userUsername = JSON.parse(localStorage.getItem('sessionName') || '{}');
-    this.user=this.userService.listUsers.find(x=>x.username==userUsername) || new User();
+    const userId = JSON.parse(localStorage.getItem('sessionId') || '{}');
+    this.user=this.userService.listUsers.find(x=>x.id==userId) || new User();
     this.list=this.productService.listProducts;
     this.cart=new Array<ProductOrder>();
     this.price=0;
@@ -50,9 +51,11 @@ export class NewOrderComponent implements OnInit {
 
   createOrder(){
     let comment = (<HTMLInputElement> document.getElementById("comment")).value;
-    this.orderService.createOrder(new Order(0, this.cart, this.user.address, comment, this.priceDeliver, -1, this.user.id));
-    console.log(this.orderService.listOrders);
+    this.orderService.createOrder(new Order(0, this.cart, this.user.address, comment, this.priceDeliver, -1, this.user.id, OrderStatus.Ordered, new Date()));
+    
     this.ordered=true;
+    this.cart=new Array<ProductOrder>();
+    console.log(this.orderService.listOrders);
   }
 
 }

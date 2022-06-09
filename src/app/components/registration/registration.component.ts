@@ -61,7 +61,7 @@ export class RegistrationComponent implements OnInit {
     }else{
       userStatus=UserStatus.Approved;
     }
-    const user=new User(username, email, password, name, surname, dateOfBirth, address, type, 'assets/images/Gull_portrait_ca_usa.jpg', userStatus);
+    const user=new User(this.userService.listUsers.length+1, username, email, password, name, surname, dateOfBirth, address, type, 'assets/images/Gull_portrait_ca_usa.jpg', userStatus);
     this.isRegister=this.userService.newUser(user);
     this.onClear();
   }

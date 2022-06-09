@@ -15,13 +15,13 @@ export class VerificationComponent implements OnInit {
   ngOnInit(): void {
     this.list=this.userService.getDeliverers();
   }
-  approveUser(email: string){
-    this.userService.approveUser(email);
+  approveUser(id: number){
+    this.userService.approveUser(id);
     this.list=this.userService.getDeliverers();
   }
 
-  rejectUser(email: string){
-    this.userService.rejectUser(email);
+  rejectUser(id: number){
+    this.userService.rejectUser(id);
     this.list=this.userService.getDeliverers();
   }
 

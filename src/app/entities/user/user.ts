@@ -15,8 +15,8 @@ export class User {
     status: UserStatus;
 
     
-    constructor(username: string='', email: string='', password: string='', name: string='', surname: string='', dateOfBirth: Date=new Date(), address: string='', type: UserType=UserType.Potrosac, imagePath: string='', status: UserStatus=UserStatus.Processing){
-        this.id=0;
+    constructor(id: number=0, username: string='', email: string='', password: string='', name: string='', surname: string='', dateOfBirth: Date=new Date(), address: string='', type: UserType=UserType.Potrosac, imagePath: string='', status: UserStatus=UserStatus.Processing){
+        this.id=id;
         this.username=username;
         this.email=email;
         this.password=password;
