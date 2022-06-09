@@ -20,14 +20,18 @@ export class CurrentOrderComponent implements OnInit {
     const id = JSON.parse(localStorage.getItem('sessionId') || '{}');
     this.user=this.userService.listUsers.find(x=>x.id==id) || new User();
     this.order=this.orderService.findCurrentOrder(id);
-    let currentDate:Date=new Date();
-    this.minutes=this.order.deliveryTime.getMinutes()-currentDate.getMinutes();
-    this.seconds=this.order.deliveryTime.getSeconds()-currentDate.getSeconds();
-    console.log('pozvano');
+    
     
   }
 
   ngOnInit(): void {
+    let currentDate:Date=new Date();
+    this.minutes=Math.abs(this.order.deliveryTime.getMinutes()-currentDate.getMinutes());
+    this.seconds=Math.abs(this.order.deliveryTime.getSeconds()-currentDate.getSeconds());
+    console.log(this.minutes)
+    console.log(this.seconds)
+    console.log(this.order.deliveryTime)
+    console.log(currentDate)
     this.startTimer();
   }
   startTimer() {

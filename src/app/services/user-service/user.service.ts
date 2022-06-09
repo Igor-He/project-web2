@@ -121,4 +121,14 @@ export class UserService {
     return list;
   }
 
+   getUserType(userId: number): UserType{
+    let type: UserType=UserType.Potrosac;
+    this.listUsers.forEach(x => {
+      if(x.id==userId){
+        type=x.type;
+      }
+    });
+    return type;
+  }
+
 }

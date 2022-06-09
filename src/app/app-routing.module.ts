@@ -4,6 +4,7 @@ import { AddingProductsComponent } from './components/home-page/admin/adding-pro
 import { VerificationComponent } from './components/home-page/admin/verification/verification.component';
 import { AllOrdersComponent } from './components/home-page/customer/all-orders/all-orders.component';
 import { CurrentOrderComponent } from './components/home-page/customer/current-order/current-order.component';
+import { GetOrderComponent } from './components/home-page/customer/get-order/get-order.component';
 import { NewCurrentOrderComponent } from './components/home-page/customer/new-current-order/new-current-order.component';
 import { HomePageComponent } from './components/home-page/home-page/home-page.component';
 import { ProfileComponent } from './components/home-page/profile/profile/profile.component';
@@ -51,6 +52,10 @@ const routes: Routes = [
   {
     path: "all-orders",
     component: AllOrdersComponent
+  },
+  {
+    path: "get-order",
+    component: GetOrderComponent
   }
 ];
 

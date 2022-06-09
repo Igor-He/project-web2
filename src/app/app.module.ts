@@ -15,6 +15,7 @@ import { NewCurrentOrderComponent } from './components/home-page/customer/new-cu
 import { NewOrderComponent } from './components/home-page/customer/new-order/new-order.component';
 import { CurrentOrderComponent } from './components/home-page/customer/current-order/current-order.component';
 import { AllOrdersComponent } from './components/home-page/customer/all-orders/all-orders.component';
+import { GetOrderComponent } from './components/home-page/customer//get-order/get-order.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AllOrdersComponent } from './components/home-page/customer/all-orders/a
     NewCurrentOrderComponent,
     NewOrderComponent,
     CurrentOrderComponent,
-    AllOrdersComponent
+    AllOrdersComponent,
+    GetOrderComponent
   ],
   imports: [
     BrowserModule,
