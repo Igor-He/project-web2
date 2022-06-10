@@ -13,7 +13,6 @@ export class User {
     type: UserType;
     imagePath: string;
     status: UserStatus;
-
     
     constructor(id: number=0, username: string='', email: string='', password: string='', name: string='', surname: string='', dateOfBirth: Date=new Date(), address: string='', type: UserType=UserType.Potrosac, imagePath: string='', status: UserStatus=UserStatus.Processing){
         this.id=id;
