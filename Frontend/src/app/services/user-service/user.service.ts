@@ -3,20 +3,23 @@ import { FormGroup, AbstractControl, ValidatorFn } from '@angular/forms';
 import { User } from 'src/app/entities/user/user';
 import { UserStatus } from 'src/app/entities/enums/user-status.enum';
 import { UserType } from 'src/app/entities/enums/user-type.enum';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   listUsers: Array<User>;
-
-  constructor() { 
+  path: string="https://localhost:44327/api/Users";
+  constructor(private http: HttpClient) { 
     this.listUsers=new Array<User>();
-    this.mockedUsers();
+    this.listUsers=this.loadUsers();
+    console.log(this.listUsers);
   }
 
-  loadUsers(): Array<User>{
-    return this.listUsers;
+  loadUsers(): any{
+    return this.http.get<Array<User>>(this.path);
   }
   mockedUsers(){
     const u1=new User(1,'admin', 'igor@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Administrator, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Approved);
@@ -43,16 +46,16 @@ export class UserService {
       if(x.username==username){
         if(x.password==password){
           check=true;
-          if(x.type==UserType.Administrator){
-            localStorage.setItem('sessionUserRole', JSON.stringify('ADMIN'));
-            localStorage.setItem('sessionId', JSON.stringify(x.id));
-          }else if(x.type==UserType.Potrosac){
-            localStorage.setItem('sessionUserRole', JSON.stringify('POTROSAC'));
-            localStorage.setItem('sessionId', JSON.stringify(x.id));
-          }else if(x.type==UserType.Dostavljac){
-            localStorage.setItem('sessionUserRole', JSON.stringify('DOSTAVLJAC'));
-            localStorage.setItem('sessionId', JSON.stringify(x.id));
-          }
+          // if(x.type==UserType.Administrator){
+          //   localStorage.setItem('sessionUserRole', JSON.stringify('ADMIN'));
+          //   localStorage.setItem('sessionId', JSON.stringify(x.id));
+          // }else if(x.type==UserType.Potrosac){
+          //   localStorage.setItem('sessionUserRole', JSON.stringify('POTROSAC'));
+          //   localStorage.setItem('sessionId', JSON.stringify(x.id));
+          // }else if(x.type==UserType.Dostavljac){
+          //   localStorage.setItem('sessionUserRole', JSON.stringify('DOSTAVLJAC'));
+          //   localStorage.setItem('sessionId', JSON.stringify(x.id));
+          // }
           
         }
       }

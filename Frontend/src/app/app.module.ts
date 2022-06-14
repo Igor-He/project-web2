@@ -16,6 +16,7 @@ import { NewOrderComponent } from './components/home-page/customer/new-order/new
 import { CurrentOrderComponent } from './components/home-page/customer/current-order/current-order.component';
 import { AllOrdersComponent } from './components/home-page/customer/all-orders/all-orders.component';
 import { GetOrderComponent } from './components/home-page/customer//get-order/get-order.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { GetOrderComponent } from './components/home-page/customer//get-order/ge
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
