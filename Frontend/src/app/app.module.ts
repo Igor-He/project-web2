@@ -17,6 +17,8 @@ import { CurrentOrderComponent } from './components/home-page/customer/current-o
 import { AllOrdersComponent } from './components/home-page/customer/all-orders/all-orders.component';
 import { GetOrderComponent } from './components/home-page/customer//get-order/get-order.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

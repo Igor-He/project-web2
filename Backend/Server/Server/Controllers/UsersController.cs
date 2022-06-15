@@ -115,7 +115,7 @@ namespace Server.Controllers
         [HttpPost]
         [Route("Login")]
         // POST: api/<controller>/Login
-        public async Task<IActionResult> Login([FromBody] UserLoginDto userLoginDto)
+        public async Task<IActionResult> Login(UserLoginDto userLoginDto)
         {
             try
             {

@@ -5,13 +5,14 @@ import { UserStatus } from 'src/app/entities/enums/user-status.enum';
 import { UserType } from 'src/app/entities/enums/user-type.enum';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { UserLoginDto } from 'src/app/entities/dtos/user-login-dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   listUsers: Array<User>;
-  path: string="https://localhost:44327/api/Users";
+  path: string="https://localhost:44347/api/Users";
   constructor(private http: HttpClient) { 
     this.listUsers=new Array<User>();
     this.listUsers=this.loadUsers();
@@ -40,28 +41,9 @@ export class UserService {
       this.listUsers.push(u);
   }
 
-  authentificationUser(username: string, password: string): Boolean{
-    let check=false;
-    this.listUsers.forEach(x => {
-      if(x.username==username){
-        if(x.password==password){
-          check=true;
-          // if(x.type==UserType.Administrator){
-          //   localStorage.setItem('sessionUserRole', JSON.stringify('ADMIN'));
-          //   localStorage.setItem('sessionId', JSON.stringify(x.id));
-          // }else if(x.type==UserType.Potrosac){
-          //   localStorage.setItem('sessionUserRole', JSON.stringify('POTROSAC'));
-          //   localStorage.setItem('sessionId', JSON.stringify(x.id));
-          // }else if(x.type==UserType.Dostavljac){
-          //   localStorage.setItem('sessionUserRole', JSON.stringify('DOSTAVLJAC'));
-          //   localStorage.setItem('sessionId', JSON.stringify(x.id));
-          // }
-          
-        }
-      }
-    
-    });
-    return check;
+  authentificationUser(email: string, password: string){
+    let userLoginDto=new UserLoginDto(email, password);
+    return this.http.post<string>(this.path+"/Login", userLoginDto);
   }
   newUser(user: User): Boolean{
     let check=true;
