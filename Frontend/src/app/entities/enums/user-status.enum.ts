@@ -1,6 +1,6 @@
 export enum UserStatus {
-    Approved='Approved',
-    Reject='Reject',
-    Processing='Processing'
+    Approved=0,
+    Reject=1,
+    Processing=2
 
 }

@@ -6,6 +6,8 @@ import { UserType } from 'src/app/entities/enums/user-type.enum';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserLoginDto } from 'src/app/entities/dtos/user-login-dto';
+import { RegistrationResponseDto } from 'src/app/_interfaces/registrationResponseDto.model';
+import { UserForRegistrationDto } from 'src/app/_interfaces/userforRegistrationDto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +42,8 @@ export class UserService {
   createUser(u: User){
       this.listUsers.push(u);
   }
+
+  
 
   authentificationUser(email: string, password: string){
     let userLoginDto=new UserLoginDto(email, password);
@@ -114,6 +118,10 @@ export class UserService {
       }
     });
     return type;
+  }
+
+  public registerUser = (body: UserForRegistrationDto) => {
+    return this.http.post<RegistrationResponseDto> (this.path+"/Registration", body);
   }
 
 }

@@ -6,9 +6,9 @@
             <div class="col-sm-6 form-group">
                 <label for="username">Korisnicko ime</label>
                 <input type="text" id="username" placeholder="Unesite korisnicko ime" class="form-control" formControlName="username">
-                <div *ngIf="registrationForm.controls.username.invalid && registrationForm.controls.username.touched">
+                <em *ngIf="registrationForm.controls.username.invalid && registrationForm.controls.username.touched">
                     Polje je obavezno!
-                </div>
+                </em>
             </div>
 
         </div>
@@ -16,63 +16,63 @@
             <div class="col-sm-6 form-group">
                 <label for="email">E-mail</label>
                 <input type="email" id="email" placeholder="Unesite email" class="form-control" formControlName="email">
-                <div *ngIf="registrationForm.controls.email.invalid && registrationForm.controls.email.touched">
+                <em *ngIf="registrationForm.controls.email.invalid && registrationForm.controls.email.touched">
                     Polje je obavezno!
-                </div>
+                </em>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 form-group">
                 <label for="password">Lozinka</label>
                 <input type="password" id="password" placeholder="Unesite lozinku" class="form-control" formControlName="password">
-                <div *ngIf="registrationForm.controls.password.invalid && registrationForm.controls.password.touched">
+                <em *ngIf="registrationForm.controls.password.invalid && registrationForm.controls.password.touched">
                     Polje je obavezno!
-                </div>
+                </em>
             </div>
         </div>
-        <!-- <div class="row">
+        <div class="row">
             <div class="col-sm-6 form-group">
                 <label for="confirm_password">Potvrda lozinke</label>
                 <input type="password" id="confirm_password" placeholder="Potvdrite lozinku" class="form-control" formControlName="confirm_password">
-                <div *ngIf="registrationForm.controls.confirm_password.invalid && registrationForm.controls.confirm_password.touched">
+                <em *ngIf="registrationForm.controls.confirm_password.invalid && registrationForm.controls.confirm_password.touched">
                     Polje je obavezno!
-                </div>
+                </em>
             </div>
-        </div> -->
+        </div>
         <div class="row">
             <div class="col-sm-6 form-group">
                 <label for="name">Ime</label>
                 <input type="text" id="name" class="form-control" placeholder="Unesite ime" formControlName="name">
-                <div *ngIf="registrationForm.controls.name.invalid && registrationForm.controls.name.touched">
+                <em *ngIf="registrationForm.controls.name.invalid && registrationForm.controls.name.touched">
                     Polje je obavezno!
-                </div>
+                </em>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 form-group">
                 <label for="surname">Prezime</label>
                 <input type="text" id="surname" class="form-control" placeholder="Unesite prezime" formControlName="surname">
-                <div *ngIf="registrationForm.controls.surname.invalid && registrationForm.controls.surname.touched">
+                <em *ngIf="registrationForm.controls.surname.invalid && registrationForm.controls.surname.touched">
                     Polje je obavezno!
-                </div>
+                </em>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 form-group">
                 <label for="dateOfBirth">Datum rodjenja</label>
                 <input type="date" id="dateOfBirth" class="form-control" placeholder="Unesite datum rodjenja" formControlName="dateOfBirth">
-                <div *ngIf="registrationForm.controls.dateOfBirth.invalid && registrationForm.controls.dateOfBirth.touched">
+                <em *ngIf="registrationForm.controls.dateOfBirth.invalid && registrationForm.controls.dateOfBirth.touched">
                     Polje je obavezno!
-                </div>
+                </em>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 form-group">
                 <label for="address">Adresa</label>
                 <input type="text" id="address" class="form-control" placeholder="Unesite adresu" formControlName="address">
-                <div *ngIf="registrationForm.controls.address.invalid && registrationForm.controls.address.touched">
+                <em *ngIf="registrationForm.controls.address.invalid && registrationForm.controls.address.touched">
                     Polje je obavezno!
-                </div>
+                </em>
             </div>
         </div>
         <div class="row">
@@ -81,9 +81,9 @@
                 <select class="form-control"  formControlName="type" >
                     <option *ngFor="let option of list" [value]="option" >{{option}}</option>
                 </select>
-                <div *ngIf="registrationForm.controls.type.invalid && registrationForm.controls.type.touched">
+                <em *ngIf="registrationForm.controls.type.invalid && registrationForm.controls.type.touched">
                     Polje je obavezno!
-                </div>
+                </em>
             </div>
         </div>
         <div class="row">

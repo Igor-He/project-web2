@@ -2,7 +2,7 @@
 
 namespace Server.Migrations
 {
-    public partial class AddingUserv3 : Migration
+    public partial class IdentityTablesCreation3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

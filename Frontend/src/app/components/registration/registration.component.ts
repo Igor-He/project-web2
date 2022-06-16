@@ -4,6 +4,8 @@ import { User } from 'src/app/entities/user/user';
 import { UserStatus } from 'src/app/entities/enums/user-status.enum';
 import { UserType } from 'src/app/entities/enums/user-type.enum';
 import { UserService } from 'src/app/services/user-service/user.service';
+import { UserForRegistrationDto } from 'src/app/_interfaces/userforRegistrationDto.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -24,7 +26,6 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.list.push(UserType.Potrosac.toString());
     this.list.push(UserType.Dostavljac.toString());
-    this.list.push(UserType.Administrator.toString());
     this.initForm();
   }
 
@@ -39,7 +40,7 @@ export class RegistrationComponent implements OnInit {
       'address': new FormControl(null, [Validators.required]),
       'type': new FormControl(UserType.Potrosac, Validators.required),
       'image': new FormControl(),
-      //'confirm_password' : new FormControl(null, [Validators.required])
+      'confirm_password' : new FormControl(null)
     }
     );
   }
@@ -54,21 +55,34 @@ export class RegistrationComponent implements OnInit {
     const address=this.registrationForm.controls['address'].value;
     const type=this.registrationForm.controls['type'].value;
     const imagePath=this.registrationForm.controls['image'].value;
-    console.log(this.registrationForm.controls['image'].value);
+    const confirmPassword=this.registrationForm.controls['confirm_password'].value;
     let userStatus;
     if(type==UserType.Dostavljac){
       userStatus=UserStatus.Processing;
     }else{
       userStatus=UserStatus.Approved;
     }
-    const user=new User(this.userService.listUsers.length+1, username, email, password, name, surname, dateOfBirth, address, type, 'assets/images/Gull_portrait_ca_usa.jpg', userStatus);
-    this.isRegister=this.userService.newUser(user);
-    this.onClear();
+    const user: UserForRegistrationDto = {
+      username: username,
+      email: email,
+      password: password,
+      name: name,
+      surname: surname,
+      dateOfBirth: dateOfBirth,
+      address: address,
+      type: type,
+      status: userStatus,
+      confirmPassword: confirmPassword
+    };
+    this.userService.registerUser(user)
+    .subscribe({
+      next: (_) => console.log("Successful registration"),
+      error: (err: HttpErrorResponse) => console.log(err.error.errors)
+    })
   }
 
   onClear() {
     this.registrationForm.reset();
   }
-
 
 }
