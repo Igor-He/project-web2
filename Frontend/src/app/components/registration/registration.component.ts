@@ -18,12 +18,14 @@ export class RegistrationComponent implements OnInit {
 
   registrationForm: FormGroup;
   list=new Array<string>();
-  isRegister: Boolean;
+  errorMessage: string = '';
+  showError: boolean;
   constructor(private userService:UserService) { 
     
   }
 
   ngOnInit(): void {
+    this.showError = false;
     this.list.push(UserType.Potrosac.toString());
     this.list.push(UserType.Dostavljac.toString());
     this.initForm();
@@ -33,16 +35,17 @@ export class RegistrationComponent implements OnInit {
     this.registrationForm = new FormGroup({
       'username': new FormControl(null, [Validators.required]),
       'email': new FormControl(null, [Validators.required, Validators.email]),
-      'password': new FormControl(null, [Validators.required]),
+      'password': new FormControl('', [Validators.required]),
       'name': new FormControl(null, [Validators.required]),
       'surname': new FormControl(null, [Validators.required]),
       'dateOfBirth': new FormControl(null, [Validators.required]),
       'address': new FormControl(null, [Validators.required]),
       'type': new FormControl(UserType.Potrosac, Validators.required),
       'image': new FormControl(),
-      'confirm_password' : new FormControl(null)
+      'confirm_password' : new FormControl('')
     }
     );
+    this.registrationForm.get('confirm_password')?.setValidators([Validators.required, this.userService.validateConfirmPassword(this.registrationForm?.get('password') as FormGroup)]);
   }
 
   onSubmit() {
@@ -77,7 +80,14 @@ export class RegistrationComponent implements OnInit {
     this.userService.registerUser(user)
     .subscribe({
       next: (_) => console.log("Successful registration"),
-      error: (err: HttpErrorResponse) => console.log(err.error.errors)
+      error: (err: HttpErrorResponse) => {
+        console.log("@"+err.error);
+        let e:Error;
+        e=err;
+        this.errorMessage = e.message;
+        this.showError = true;
+        console.log('#####'+this.errorMessage);
+      }
     })
   }
 

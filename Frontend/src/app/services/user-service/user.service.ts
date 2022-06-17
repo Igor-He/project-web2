@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { User } from 'src/app/entities/user/user';
 import { UserStatus } from 'src/app/entities/enums/user-status.enum';
 import { UserType } from 'src/app/entities/enums/user-type.enum';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { UserLoginDto } from 'src/app/entities/dtos/user-login-dto';
 import { RegistrationResponseDto } from 'src/app/_interfaces/registrationResponseDto.model';
 import { UserForRegistrationDto } from 'src/app/_interfaces/userforRegistrationDto.model';
@@ -123,5 +122,17 @@ export class UserService {
   public registerUser = (body: UserForRegistrationDto) => {
     return this.http.post<RegistrationResponseDto> (this.path+"/Registration", body);
   }
-
+  public validateConfirmPassword = (passwordControl: AbstractControl): ValidatorFn => {
+    return (confirmationControl: AbstractControl) : { [key: string]: boolean } | null => {
+      const confirmValue = confirmationControl.value;
+      const passwordValue = passwordControl.value;
+      if (confirmValue === '') {
+          return null;
+      }
+      if (confirmValue !== passwordValue) {
+          return  { mustMatch: true }
+      } 
+      return null;
+    };
+  }
 }

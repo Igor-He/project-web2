@@ -16,10 +16,10 @@ import { NewOrderComponent } from './components/home-page/customer/new-order/new
 import { CurrentOrderComponent } from './components/home-page/customer/current-order/current-order.component';
 import { AllOrdersComponent } from './components/home-page/customer/all-orders/all-orders.component';
 import { GetOrderComponent } from './components/home-page/customer//get-order/get-order.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-
+import { ErrorHandlerService } from './services/error-handler-service/error-handler.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +44,11 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: ErrorHandlerService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,8 @@
 <div class="container">
     <h1>Registracija</h1>
-    <h2 *ngIf="isRegister==true">You have successfully registered. Click <a routerLink="">here</a> to login.</h2>
+    <div *ngIf="showError" class="alert alert-danger" role="alert">
+        <span [innerHTML]="errorMessage"></span>
+    </div>
     <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
         <div class="row">
             <div class="col-sm-6 form-group">
@@ -34,8 +36,11 @@
             <div class="col-sm-6 form-group">
                 <label for="confirm_password">Potvrda lozinke</label>
                 <input type="password" id="confirm_password" placeholder="Potvdrite lozinku" class="form-control" formControlName="confirm_password">
-                <em *ngIf="registrationForm.controls.confirm_password.invalid && registrationForm.controls.confirm_password.touched">
+                <em *ngIf="registrationForm.controls.confirm_password.invalid && registrationForm.controls.confirm_password.touched && registrationForm.controls.confirm_password.hasError('required')">
                     Polje je obavezno!
+                </em>
+                <em *ngIf="registrationForm.controls.confirm_password.hasError('mustMatch')">
+                    Lozinke se ne poklapaju!
                 </em>
             </div>
         </div>

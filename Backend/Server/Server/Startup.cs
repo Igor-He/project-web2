@@ -37,7 +37,12 @@ namespace Server
 
             services.AddControllers();
             
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<CRUD_Context>();
+            services.AddIdentity<User, IdentityRole>(opt=>
+            {
+                opt.Password.RequiredLength = 7;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.User.RequireUniqueEmail = true;
+            }).AddEntityFrameworkStores<CRUD_Context>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Server", Version = "v1" });
