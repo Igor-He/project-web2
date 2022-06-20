@@ -11,6 +11,7 @@ import { ProfileComponent } from './components/home-page/profile/profile/profile
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { AdminGuard } from './guards/admin-guard/admin.guard';
+import { AuthGuard } from './guards/auth-guard/auth.guard';
 import { CustomerGuard } from './guards/customer-guard/customer.guard';
 import { DelivererGuard } from './guards/deliverer-guard/deliverer.guard';
 
@@ -27,35 +28,43 @@ const routes: Routes = [
     path: "",
     component: HomePageComponent,
     //canActivate: [AdminGuard, CustomerGuard, DelivererGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: "profile",
     component:  ProfileComponent,
     //canActivate: [AdminGuard, CustomerGuard, DelivererGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: "verification",
-    component: VerificationComponent
+    component: VerificationComponent,
+    canActivate: [AuthGuard]
   },
   {
     path:"add-new-product",
-    component: AddingProductsComponent
+    component: AddingProductsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "new-current-order",
-    component: NewCurrentOrderComponent
+    component: NewCurrentOrderComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "current-order",
-    component: CurrentOrderComponent
+    component: CurrentOrderComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "all-orders",
-    component: AllOrdersComponent
+    component: AllOrdersComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "get-order",
-    component: GetOrderComponent
+    component: GetOrderComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

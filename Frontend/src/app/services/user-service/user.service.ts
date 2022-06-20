@@ -9,6 +9,7 @@ import { RegistrationResponseDto } from 'src/app/_interfaces/registrationRespons
 import { UserForRegistrationDto } from 'src/app/_interfaces/userforRegistrationDto.model';
 import { LoginResponseDto } from 'src/app/_interfaces/login-response-dto';
 import { Subject } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class UserService {
   path: string="https://localhost:44347/api/Users";
   private authChangeSub = new Subject<boolean>()
   public authChanged = this.authChangeSub.asObservable();
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { 
     this.listUsers=new Array<User>();
     this.listUsers=this.loadUsers();
     console.log(this.listUsers);
@@ -48,6 +49,15 @@ export class UserService {
 
   sendLoginStateChangeNotification (isAuthenticated: boolean){
     this.authChangeSub.next(isAuthenticated);
+  }
+
+  isUserAuthenticated(): boolean{
+    const token=localStorage.getItem("token");
+    if(token==null){
+      return false;
+    }else{
+      return !this.jwtHelper.isTokenExpired(token);
+    }
   }
 
   logOut(){
