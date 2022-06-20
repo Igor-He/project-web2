@@ -16,7 +16,7 @@ import { DelivererGuard } from './guards/deliverer-guard/deliverer.guard';
 
 const routes: Routes = [
   {
-    path: "",
+    path: "login",
     component: LoginComponent
   },
   {
@@ -24,7 +24,7 @@ const routes: Routes = [
     component: RegistrationComponent
   },
   {
-    path: "home",
+    path: "",
     component: HomePageComponent,
     //canActivate: [AdminGuard, CustomerGuard, DelivererGuard]
   },

@@ -8,6 +8,7 @@ import { UserLoginDto } from 'src/app/entities/dtos/user-login-dto';
 import { RegistrationResponseDto } from 'src/app/_interfaces/registrationResponseDto.model';
 import { UserForRegistrationDto } from 'src/app/_interfaces/userforRegistrationDto.model';
 import { LoginResponseDto } from 'src/app/_interfaces/login-response-dto';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ import { LoginResponseDto } from 'src/app/_interfaces/login-response-dto';
 export class UserService {
   listUsers: Array<User>;
   path: string="https://localhost:44347/api/Users";
+  private authChangeSub = new Subject<boolean>()
+  public authChanged = this.authChangeSub.asObservable();
   constructor(private http: HttpClient) { 
     this.listUsers=new Array<User>();
     this.listUsers=this.loadUsers();
@@ -43,7 +46,14 @@ export class UserService {
       this.listUsers.push(u);
   }
 
-  
+  sendLoginStateChangeNotification (isAuthenticated: boolean){
+    this.authChangeSub.next(isAuthenticated);
+  }
+
+  logOut(){
+    localStorage.removeItem("token");
+    this.sendLoginStateChangeNotification(false);
+  }
 
   authentificationUser(userLoginDto: UserLoginDto){
     return this.http.post<LoginResponseDto>(this.path+"/Login", userLoginDto);

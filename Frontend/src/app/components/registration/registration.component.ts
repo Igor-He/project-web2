@@ -6,6 +6,7 @@ import { UserType } from 'src/app/entities/enums/user-type.enum';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { UserForRegistrationDto } from 'src/app/_interfaces/userforRegistrationDto.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class RegistrationComponent implements OnInit {
   list=new Array<string>();
   errorMessage: string = '';
   showError: boolean;
-  constructor(private userService:UserService) { 
+  constructor(private userService:UserService, private router:Router) { 
     
   }
 
@@ -79,14 +80,10 @@ export class RegistrationComponent implements OnInit {
     };
     this.userService.registerUser(user)
     .subscribe({
-      next: (_) => console.log("Successful registration"),
+      next: (_) => this.router.navigateByUrl('/login'),
       error: (err: HttpErrorResponse) => {
-        console.log("@"+err.error);
-        let e:Error;
-        e=err;
-        this.errorMessage = e.message;
+        this.errorMessage = err.message;
         this.showError = true;
-        console.log('#####'+this.errorMessage);
       }
     })
   }

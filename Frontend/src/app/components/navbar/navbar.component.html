@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+<!-- <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <a routerLink="" class="navbar-brand">Delivery Site</a>
 
     <div class="collapse navbar-collapse">
@@ -6,9 +6,33 @@
             <li class="nav-item">
                 <a class="btn btn-outline-light my-2 my-sm-0" type="btn" (click)="logOut()" style="margin-left :5px">Log Out</a>
             </li>
-            <!-- <li class="nav-item">
+            <li class="nav-item">
                 <a class="btn btn-outline-light my-2 my-sm-0" type="btn" routerLink="/reactive" style="margin-left :5px">Reactive Form</a>
-            </li>  -->
+            </li >
         </ul>
+    </div> 
+</nav> -->
+
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Delivery Site</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample02">
+      <ul class="navbar-nav mr-auto">
+        <li *ngIf='isUserAuthenticated' class="nav-item ">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home </a>
+        </li>
+        <li *ngIf='!isUserAuthenticated' class="nav-item">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Login</a>
+        </li>
+        <li *ngIf='!isUserAuthenticated' class="nav-item">
+          <a class="nav-link" routerLink="/register" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Register</a>
+        </li>
+        <li *ngIf='isUserAuthenticated' class="nav-item">
+          <button class="btn btn-link" style="color: #ffffff80;" (click)="logOut()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Log Out</button>
+        </li>
+      </ul>
     </div>
-</nav>
+  </nav>
