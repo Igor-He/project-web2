@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserLoginDto } from 'src/app/entities/dtos/user-login-dto';
 import { RegistrationResponseDto } from 'src/app/_interfaces/registrationResponseDto.model';
 import { UserForRegistrationDto } from 'src/app/_interfaces/userforRegistrationDto.model';
+import { LoginResponseDto } from 'src/app/_interfaces/login-response-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -44,9 +45,8 @@ export class UserService {
 
   
 
-  authentificationUser(email: string, password: string){
-    let userLoginDto=new UserLoginDto(email, password);
-    return this.http.post<string>(this.path+"/Login", userLoginDto);
+  authentificationUser(userLoginDto: UserLoginDto){
+    return this.http.post<LoginResponseDto>(this.path+"/Login", userLoginDto);
   }
   newUser(user: User): Boolean{
     let check=true;
