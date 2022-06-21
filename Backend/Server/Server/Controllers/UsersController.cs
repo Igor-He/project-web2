@@ -43,7 +43,18 @@ namespace Server.Controllers
 
                 return BadRequest(new RegistrationResponseDto { Errors = errors });
             }
-
+            if (userForRegistration.Type == UserType.Administrator)
+            {
+                await _userManager.AddToRoleAsync(user, "Administrator");
+            }
+            else if (userForRegistration.Type == UserType.Potrosac)
+            {
+                await _userManager.AddToRoleAsync(user, "Potrosac");
+            }
+            else if (userForRegistration.Type == UserType.Dostavljac)
+            {
+                await _userManager.AddToRoleAsync(user, "Dostavljac");
+            }
             return StatusCode(201);
         }
 
@@ -56,7 +67,7 @@ namespace Server.Controllers
                 return Unauthorized(new LoginResponseDto { ErrorMessage = "Invalid Authentication" });
 
             var signingCredentials = _jwtHandler.GetSigningCredentials();
-            var claims = _jwtHandler.GetClaims(user);
+            var claims =await _jwtHandler.GetClaims(user);
             var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
             var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 

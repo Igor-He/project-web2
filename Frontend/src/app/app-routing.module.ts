@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ForbiddenComponent } from './components/errors/forbidden/forbidden.component';
 import { AddingProductsComponent } from './components/home-page/admin/adding-products/adding-products.component';
 import { VerificationComponent } from './components/home-page/admin/verification/verification.component';
 import { AllOrdersComponent } from './components/home-page/customer/all-orders/all-orders.component';
@@ -39,7 +40,7 @@ const routes: Routes = [
   {
     path: "verification",
     component: VerificationComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path:"add-new-product",
@@ -65,6 +66,10 @@ const routes: Routes = [
     path: "get-order",
     component: GetOrderComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: "forbidden",
+    component: ForbiddenComponent
   }
 ];
 

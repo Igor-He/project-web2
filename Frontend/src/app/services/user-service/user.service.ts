@@ -48,14 +48,17 @@ export class UserService {
   }
 
   sendLoginStateChangeNotification (isAuthenticated: boolean){
+    console.log('sada'+ isAuthenticated.toString());
     this.authChangeSub.next(isAuthenticated);
   }
 
   isUserAuthenticated(): boolean{
     const token=localStorage.getItem("token");
     if(token==null){
+      this.sendLoginStateChangeNotification(false);
       return false;
     }else{
+      this.sendLoginStateChangeNotification(!this.jwtHelper.isTokenExpired(token));
       return !this.jwtHelper.isTokenExpired(token);
     }
   }
@@ -68,6 +71,17 @@ export class UserService {
   authentificationUser(userLoginDto: UserLoginDto){
     return this.http.post<LoginResponseDto>(this.path+"/Login", userLoginDto);
   }
+
+  isUserAdmin(): boolean{
+    const token = localStorage.getItem("token");
+    if(token !==null){
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+      return role === 'Administrator';
+    }
+    return false;    
+  }
+  
   newUser(user: User): Boolean{
     let check=true;
     this.listUsers.forEach(x => {

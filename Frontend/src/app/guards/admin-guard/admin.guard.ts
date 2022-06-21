@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import { UserService } from 'src/app/services/user-service/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminGuard implements CanActivate {
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const userRole = JSON.parse(localStorage.getItem('sessionUserRole') || '{}');
-    if (userRole === 'ADMIN') {
+
+  constructor(private userService: UserService, private router: Router) {}
+
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot){
+    if(this.userService.isUserAdmin())
       return true;
-    }
-    alert('Da biste pristupili ovom linku, morate imati ulogu admina!');
+
+    this.router.navigate(['/forbidden'], {queryParams: {returnUrl: state.url}});
     return false;
   }
   

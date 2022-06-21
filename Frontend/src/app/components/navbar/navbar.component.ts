@@ -9,7 +9,13 @@ import { UserService } from 'src/app/services/user-service/user.service';
 })
 export class NavbarComponent implements OnInit {
   isUserAuthenticated: boolean;
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router) { 
+    this.userService.authChanged.subscribe(
+      res=>{
+        this.isUserAuthenticated=res;
+      }
+    );
+  }
 
   ngOnInit(): void {
     this.userService.authChanged.subscribe(

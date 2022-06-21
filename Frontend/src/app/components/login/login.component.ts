@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { EmailValidator, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserLoginDto } from 'src/app/entities/dtos/user-login-dto';
 import { UserService } from 'src/app/services/user-service/user.service';
@@ -17,11 +17,13 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string = '';
   showError: boolean;
+  private returnUrl: string;
 
-  constructor(private router: Router, private userService: UserService, private toastr: ToastrService) { }
+  constructor(private router: Router, private userService: UserService, private toastr: ToastrService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.initForm();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   private initForm() {
@@ -44,7 +46,7 @@ export class LoginComponent implements OnInit {
       next: (res:LoginResponseDto)=>{
         localStorage.setItem("token", res.token);
         this.userService.sendLoginStateChangeNotification(res.isAuthSuccessful);
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl(this.returnUrl);
       },
       error: (err: HttpErrorResponse)=>{
         this.errorMessage=err.message;
