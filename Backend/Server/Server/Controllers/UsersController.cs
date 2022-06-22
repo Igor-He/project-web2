@@ -76,7 +76,7 @@ namespace Server.Controllers
         }
 
         [HttpGet("{userEmail}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetUserProfile(string userEmail)
         {
             var user = await _userManager.FindByNameAsync(userEmail);
@@ -100,6 +100,7 @@ namespace Server.Controllers
         }
 
         [HttpPut("{userEmail}")]
+        [Authorize]
         public async Task<IActionResult> EditProfile(string userEmail, UserProfileDto userProfileDto)
         {
             if (userEmail != userProfileDto.Email)

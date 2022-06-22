@@ -92,8 +92,5 @@ onSubmit(){
     }
   });
   // const imagePath=this.updateProfileForm.controls['image'].value;
-  //const user=new User(this.user.id, username, email, password, name, surname, dateOfBirth, address, type, 'assets/images/Gull_portrait_ca_usa.jpg', this.user.status);
-  //this.isUpdated=this.userService.editUser(user);
-  //this.isReadOnly=true;
 }
 }

@@ -17,13 +17,12 @@ import { UserProfileDto } from 'src/app/_interfaces/user-profile-dto';
 })
 export class UserService {
   listUsers: Array<User>;
-  path: string="https://localhost:44347/api/Users";
+  path: string="https://localhost:5001/api/Users";
   private authChangeSub = new Subject<boolean>()
   public authChanged = this.authChangeSub.asObservable();
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { 
     this.listUsers=new Array<User>();
     this.listUsers=this.loadUsers();
-    console.log(this.listUsers);
   }
 
   loadUsers(): any{
@@ -97,6 +96,9 @@ export class UserService {
     }
     return ""; 
   }
+
+
+
   newUser(user: User): Boolean{
     let check=true;
     this.listUsers.forEach(x => {
@@ -106,17 +108,6 @@ export class UserService {
     });
     this.createUser(user);
     return check;
-  }
-  editUser(user: User): Boolean{
-    let done=false;
-    this.listUsers.forEach(x => {
-      if(x.id==user.id){
-        let index=this.listUsers.indexOf(x);
-        this.listUsers[index]=user;
-        done=true;
-      }
-    });
-    return done;
   }
   getDeliverers() : Array<User>{
     let list=new Array<User>();
