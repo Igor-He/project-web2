@@ -10,6 +10,7 @@ import { UserForRegistrationDto } from 'src/app/_interfaces/userforRegistrationD
 import { LoginResponseDto } from 'src/app/_interfaces/login-response-dto';
 import { Subject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserProfileDto } from 'src/app/_interfaces/user-profile-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -69,7 +70,7 @@ export class UserService {
   }
 
   authentificationUser(userLoginDto: UserLoginDto){
-    return this.http.post<LoginResponseDto>(this.path+"/Login", userLoginDto);
+    return this.http.post<LoginResponseDto>(this.path+"/login", userLoginDto);
   }
 
   isUserAdmin(): boolean{
@@ -81,7 +82,21 @@ export class UserService {
     }
     return false;    
   }
-  
+  getUserByEmail(){
+    return this.http.get<UserProfileDto>(this.path+"/"+this.getUserEmail());
+  }
+  editUserByEmail(userProfileDto: UserProfileDto ){
+    return this.http.put(this.path+"/"+this.getUserEmail(), userProfileDto);
+  }
+  getUserEmail(): string{
+    const token = localStorage.getItem("token");
+    if(token !==null){
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      const email = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
+      return email;
+    }
+    return ""; 
+  }
   newUser(user: User): Boolean{
     let check=true;
     this.listUsers.forEach(x => {
@@ -154,7 +169,7 @@ export class UserService {
   }
 
   public registerUser = (body: UserForRegistrationDto) => {
-    return this.http.post<RegistrationResponseDto> (this.path+"/Registration", body);
+    return this.http.post<RegistrationResponseDto> (this.path+"/registration", body);
   }
   public validateConfirmPassword = (passwordControl: AbstractControl): ValidatorFn => {
     return (confirmationControl: AbstractControl) : { [key: string]: boolean } | null => {

@@ -29,13 +29,14 @@ namespace Server.Controllers
             _mapper = mapper;
             _jwtHandler = jwtHandler;
         }
-        [HttpPost("Registration")]
+        [HttpPost("registration")]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
             if (userForRegistration == null || !ModelState.IsValid)
                 return BadRequest();
-
+            string nickname = userForRegistration.Username;
             var user = _mapper.Map<User>(userForRegistration);
+            user.Nickname = nickname;
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
             if (!result.Succeeded)
             {
@@ -58,7 +59,7 @@ namespace Server.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserForLoginDto userForLoginDto)
         {
             var user = await _userManager.FindByNameAsync(userForLoginDto.Email);
@@ -72,6 +73,54 @@ namespace Server.Controllers
             var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
             return Ok(new LoginResponseDto { IsAuthSuccessful = true, Token = token });
+        }
+
+        [HttpGet("{userEmail}")]
+        //[Authorize]
+        public async Task<IActionResult> GetUserProfile(string userEmail)
+        {
+            var user = await _userManager.FindByNameAsync(userEmail);
+            if(user != null)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                UserProfileDto userProfileDto = new UserProfileDto();
+                userProfileDto.Name = user.Name;
+                userProfileDto.Surname = user.Surname;
+                userProfileDto.Status = user.Status;
+                userProfileDto.DateOfBirth = user.DateOfBirth;
+                userProfileDto.Type = roles[0];
+                userProfileDto.Username = user.Nickname;
+                userProfileDto.Email = user.Email;
+                userProfileDto.Address = user.Address;
+
+                return Ok(userProfileDto);
+            }
+            return BadRequest();
+
+        }
+
+        [HttpPut("{userEmail}")]
+        public async Task<IActionResult> EditProfile(string userEmail, UserProfileDto userProfileDto)
+        {
+            if (userEmail != userProfileDto.Email)
+            {
+                return BadRequest();
+            }
+            var user = await _userManager.FindByNameAsync(userEmail);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            user.Address = userProfileDto.Address;
+            user.DateOfBirth = userProfileDto.DateOfBirth;
+            user.Nickname = userProfileDto.Username;
+            user.Name = userProfileDto.Name;
+            user.Surname = userProfileDto.Surname;
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+                return Ok();
+            else
+                return BadRequest();
         }
     }
 }

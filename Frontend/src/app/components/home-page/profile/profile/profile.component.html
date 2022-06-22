@@ -1,4 +1,4 @@
-<form [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()">
+<form *ngIf="onInit" [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()">
     <div class="row">
         <div class="col-sm-6 form-group">
             <label for="username">Korisnicko ime</label>
@@ -49,6 +49,12 @@
             <div *ngIf="updateProfileForm.controls.address.invalid && updateProfileForm.controls.address.touched">
                 Polje je obavezno!
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 form-group">
+            <label for="status">Status</label>
+            <input type="text"  readonly  id="status" class="form-control"  formControlName="status">
         </div>
     </div>
     <div class="row">
