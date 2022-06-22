@@ -22,6 +22,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ErrorHandlerService } from './services/error-handler-service/error-handler.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ForbiddenComponent } from './components/errors/forbidden/forbidden.component';
+import { PageNotFoundComponent } from './components/errors/page-not-found/page-not-found.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -42,7 +43,8 @@ export function tokenGetter() {
     CurrentOrderComponent,
     AllOrdersComponent,
     GetOrderComponent,
-    ForbiddenComponent
+    ForbiddenComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

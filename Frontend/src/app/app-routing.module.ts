@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ForbiddenComponent } from './components/errors/forbidden/forbidden.component';
+import { PageNotFoundComponent } from './components/errors/page-not-found/page-not-found.component';
 import { AddingProductsComponent } from './components/home-page/admin/adding-products/adding-products.component';
 import { VerificationComponent } from './components/home-page/admin/verification/verification.component';
 import { AllOrdersComponent } from './components/home-page/customer/all-orders/all-orders.component';
@@ -70,6 +71,14 @@ const routes: Routes = [
   {
     path: "forbidden",
     component: ForbiddenComponent
+  },
+  {
+    path: "404",
+    component: PageNotFoundComponent
+  },
+  {
+    path: '**', 
+    redirectTo: '/404'
   }
 ];
 

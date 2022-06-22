@@ -21,16 +21,16 @@
 
     <div class="collapse navbar-collapse" id="navbarsExample02">
       <ul class="navbar-nav mr-auto">
-        <li *ngIf='isUserAuthenticated' class="nav-item ">
+        <li [hidden]='isUserAuthenticated==false' class="nav-item ">
           <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home </a>
         </li>
-        <li *ngIf='!isUserAuthenticated' class="nav-item">
+        <li [hidden]='isUserAuthenticated==true' class="nav-item">
           <a class="nav-link" routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Login</a>
         </li>
-        <li *ngIf='!isUserAuthenticated' class="nav-item">
+        <li [hidden]='isUserAuthenticated==true' class="nav-item">
           <a class="nav-link" routerLink="/register" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Register</a>
         </li>
-        <li *ngIf='isUserAuthenticated' class="nav-item">
+        <li [hidden]='isUserAuthenticated==false' class="nav-item">
           <button class="btn btn-link" style="color: #ffffff80;" (click)="logOut()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Log Out</button>
         </li>
       </ul>

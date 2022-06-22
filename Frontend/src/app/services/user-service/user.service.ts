@@ -48,7 +48,7 @@ export class UserService {
   }
 
   sendLoginStateChangeNotification (isAuthenticated: boolean){
-    console.log('sada'+ isAuthenticated.toString());
+    console.log('service_'+ isAuthenticated.toString());
     this.authChangeSub.next(isAuthenticated);
   }
 
