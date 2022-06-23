@@ -87,8 +87,12 @@ namespace Server.Controllers
 
         // POST: api/Products
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<IActionResult> CreateProduct(CreateProductDto productsDto)
         {
+            var product = new Product();
+            product.Name = productsDto.Name;
+            product.Price = productsDto.Price;
+            product.Ingredient = productsDto.Ingredient;
             _context.Product.Add(product);
             var result=await _context.SaveChangesAsync();
             if (result > 0)

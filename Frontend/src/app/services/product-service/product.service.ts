@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from 'src/app/entities/product/product';
+import { CreateProductDto } from 'src/app/_interfaces/create-product-dto';
 import { ProductsDto } from 'src/app/_interfaces/products-dto';
 
 @Injectable({
@@ -28,8 +29,8 @@ export class ProductService {
     this.listProducts.push(p4);
   }
 
-  createProduct(p: Product){
-    this.listProducts.push(p);
+  createProduct(product: CreateProductDto){
+    return this.http.post(this.path, product);
   }
   
   findProduct(name: string): Product{
