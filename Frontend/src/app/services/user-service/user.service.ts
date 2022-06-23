@@ -16,33 +16,11 @@ import { UserProfileDto } from 'src/app/_interfaces/user-profile-dto';
   providedIn: 'root'
 })
 export class UserService {
-  listUsers: Array<User>;
   path: string="https://localhost:5001/api/users";
   private authChangeSub = new Subject<boolean>()
   public authChanged = this.authChangeSub.asObservable();
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { 
-    this.listUsers=new Array<User>();
-    this.listUsers=this.loadUsers();
   }
-
-  loadUsers(): any{
-    return this.http.get<Array<User>>(this.path);
-  }
-  mockedUsers(){
-    const u1=new User(1,'admin', 'igor@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Administrator, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Approved);
-    const u2=new User(2,'del1', 'del1@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
-    const u3=new User(3,'del2', 'del2@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
-    const u4=new User(4,'del3', 'del3@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
-    const u5=new User(5,'del4', 'del4@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
-    const u6=new User(6, 'del5', 'del5@gmail.com', 'admin', 'igor', 'hegedis', new Date('3/3/1998'), '123', UserType.Dostavljac, 'assets/images/Gull_portrait_ca_usa.jpg', UserStatus.Processing);
-    this.listUsers.push(u1);
-    this.listUsers.push(u2);
-    this.listUsers.push(u3);
-    this.listUsers.push(u4);
-    this.listUsers.push(u5);
-    this.listUsers.push(u6);
-  }
-
 
   sendLoginStateChangeNotification (isAuthenticated: boolean){
     this.authChangeSub.next(isAuthenticated);
@@ -112,15 +90,15 @@ export class UserService {
     return list;
   }
 
-   getUserType(userId: number): UserType{
-    let type: UserType=UserType.Potrosac;
-    this.listUsers.forEach(x => {
-      if(x.id==userId){
-        type=x.type;
-      }
-    });
-    return type;
-  }
+  //  getUserType(userId: number): UserType{
+  //   let type: UserType=UserType.Potrosac;
+  //   this.listUsers.forEach(x => {
+  //     if(x.id==userId){
+  //       type=x.type;
+  //     }
+  //   });
+  //   return type;
+  // }
 
   public registerUser = (body: UserForRegistrationDto) => {
     return this.http.post<RegistrationResponseDto> (this.path+"/registration", body);

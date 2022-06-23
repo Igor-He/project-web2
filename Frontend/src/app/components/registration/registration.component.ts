@@ -27,8 +27,8 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.showError = false;
-    this.list.push(UserType.Potrosac.toString());
-    this.list.push(UserType.Dostavljac.toString());
+    this.list.push("Potrosač");
+    this.list.push("Dostavljač");
     this.initForm();
   }
 
@@ -41,7 +41,7 @@ export class RegistrationComponent implements OnInit {
       'surname': new FormControl(null, [Validators.required]),
       'dateOfBirth': new FormControl(null, [Validators.required]),
       'address': new FormControl(null, [Validators.required]),
-      'type': new FormControl(UserType.Potrosac, Validators.required),
+      'type': new FormControl("Potrosač", Validators.required),
       'image': new FormControl(),
       'confirm_password' : new FormControl('')
     }
@@ -62,10 +62,10 @@ export class RegistrationComponent implements OnInit {
     const confirmPassword=this.registrationForm.controls['confirm_password'].value;
     let userStatus;
     let type2;
-    if(type==UserType.Dostavljac){
+    if(type=="Dostavljač"){
       type2=UserType.Dostavljac;
       userStatus=UserStatus.Processing;
-    }else if(type==UserType.Administrator){
+    }else if(type=="Administrator"){
       type2=UserType.Administrator;
       userStatus=UserStatus.Approved;
     }else {

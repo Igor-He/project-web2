@@ -57,6 +57,7 @@ namespace Server
                     .AllowAnyHeader());
             });
             services.AddDbContext<CRUD_Context>(options => options.UseSqlServer(Configuration.GetConnectionString("CRUD_Context")));
+            services.AddDbContext<CRUD_OtherResourcesContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("CRUD_Context")));
             var jwtSettings = Configuration.GetSection("JwtSettings");
             services.AddAuthentication(opt =>
             {
