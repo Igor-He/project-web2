@@ -8,5 +8,5 @@ export interface UserProfileDto {
     dateOfBirth: Date;
     address: string;
     type: string;
-    status: UserStatus;
+    status: string;
 }

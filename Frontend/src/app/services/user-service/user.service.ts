@@ -17,7 +17,7 @@ import { UserProfileDto } from 'src/app/_interfaces/user-profile-dto';
 })
 export class UserService {
   listUsers: Array<User>;
-  path: string="https://localhost:5001/api/Users";
+  path: string="https://localhost:5001/api/users";
   private authChangeSub = new Subject<boolean>()
   public authChanged = this.authChangeSub.asObservable();
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { 
@@ -43,12 +43,8 @@ export class UserService {
     this.listUsers.push(u6);
   }
 
-  createUser(u: User){
-      this.listUsers.push(u);
-  }
 
   sendLoginStateChangeNotification (isAuthenticated: boolean){
-    console.log('service_'+ isAuthenticated.toString());
     this.authChangeSub.next(isAuthenticated);
   }
 
@@ -98,25 +94,8 @@ export class UserService {
   }
 
 
-
-  newUser(user: User): Boolean{
-    let check=true;
-    this.listUsers.forEach(x => {
-      if(x.username==user.username){
-        check=false;
-      }
-    });
-    this.createUser(user);
-    return check;
-  }
-  getDeliverers() : Array<User>{
-    let list=new Array<User>();
-    this.listUsers.forEach(x => {
-      if(x.type==UserType.Dostavljac){
-        list.push(x);
-      }
-    });
-    return list;
+  getDeliverers(){
+    return this.http.get<UserProfileDto[]>(this.path+"/all-deliverers");
   }
 
   approveUser(id: number): boolean{

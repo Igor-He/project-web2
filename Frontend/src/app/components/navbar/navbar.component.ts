@@ -13,7 +13,6 @@ export class NavbarComponent implements OnInit {
     this.userService.authChanged.subscribe(
       res=>{
         this.isUserAuthenticated=res;
-        console.log('navbar_constructor'+this.isUserAuthenticated.toString());
       }
     );
   }
@@ -22,7 +21,6 @@ export class NavbarComponent implements OnInit {
     this.userService.authChanged.subscribe(
       res=>{
         this.isUserAuthenticated=res;
-        console.log('navbar_onInit'+this.isUserAuthenticated.toString());
       }
     );
   }

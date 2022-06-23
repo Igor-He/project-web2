@@ -61,9 +61,15 @@ export class RegistrationComponent implements OnInit {
     const imagePath=this.registrationForm.controls['image'].value;
     const confirmPassword=this.registrationForm.controls['confirm_password'].value;
     let userStatus;
+    let type2;
     if(type==UserType.Dostavljac){
+      type2=UserType.Dostavljac;
       userStatus=UserStatus.Processing;
-    }else{
+    }else if(type==UserType.Administrator){
+      type2=UserType.Administrator;
+      userStatus=UserStatus.Approved;
+    }else {
+      type2=UserType.Potrosac;
       userStatus=UserStatus.Approved;
     }
     const user: UserForRegistrationDto = {
@@ -74,10 +80,11 @@ export class RegistrationComponent implements OnInit {
       surname: surname,
       dateOfBirth: dateOfBirth,
       address: address,
-      type: type,
+      type: type2,
       status: userStatus,
       confirmPassword: confirmPassword
     };
+    console.log(user);
     this.userService.registerUser(user)
     .subscribe({
       next: (_) => this.router.navigateByUrl('/login'),

@@ -46,14 +46,17 @@ namespace Server.Controllers
             }
             if (userForRegistration.Type == UserType.Administrator)
             {
+                user.Status = UserStatus.Approved;
                 await _userManager.AddToRoleAsync(user, "Administrator");
             }
             else if (userForRegistration.Type == UserType.Potrosac)
             {
+                user.Status = UserStatus.Approved;
                 await _userManager.AddToRoleAsync(user, "Potrosac");
             }
             else if (userForRegistration.Type == UserType.Dostavljac)
             {
+                user.Status = UserStatus.Processing;
                 await _userManager.AddToRoleAsync(user, "Dostavljac");
             }
             return StatusCode(201);
@@ -86,7 +89,12 @@ namespace Server.Controllers
                 UserProfileDto userProfileDto = new UserProfileDto();
                 userProfileDto.Name = user.Name;
                 userProfileDto.Surname = user.Surname;
-                userProfileDto.Status = user.Status;
+                if (user.Status == UserStatus.Approved)
+                    userProfileDto.Status = "Approved";
+                else if (user.Status == UserStatus.Reject)
+                    userProfileDto.Status = "Reject";
+                else
+                    userProfileDto.Status = "Processing";
                 userProfileDto.DateOfBirth = user.DateOfBirth;
                 userProfileDto.Type = roles[0];
                 userProfileDto.Username = user.Nickname;
@@ -122,6 +130,34 @@ namespace Server.Controllers
                 return Ok();
             else
                 return BadRequest();
+        }
+
+        [HttpGet("all-deliverers")]
+        //Authorize(Roles ="Administrator")]
+        public async Task<IActionResult> GetAllDeliverers()
+        {
+            var deliverers = await _userManager.GetUsersInRoleAsync("Dostavljac");
+            List<UserProfileDto> allDeliverersDto = new List<UserProfileDto>();
+            foreach(User user in deliverers)
+            {
+                UserProfileDto userProfileDto = new UserProfileDto();
+                userProfileDto.Name = user.Name;
+                userProfileDto.Surname = user.Surname;
+                if (user.Status == UserStatus.Approved)
+                    userProfileDto.Status = "Approved";
+                else if (user.Status == UserStatus.Reject)
+                    userProfileDto.Status = "Reject";
+                else
+                    userProfileDto.Status = "Processing";
+                userProfileDto.DateOfBirth = user.DateOfBirth;
+                userProfileDto.Type = "Dostavljac";
+                userProfileDto.Username = user.Nickname;
+                userProfileDto.Email = user.Email;
+                userProfileDto.Address = user.Address;
+                allDeliverersDto.Add(userProfileDto);
+            }
+           
+            return Ok(allDeliverersDto);
         }
     }
 }

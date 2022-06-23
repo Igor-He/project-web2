@@ -80,15 +80,12 @@ onSubmit(){
     status: status
 
   };
-  console.log(1);
   this.userService.editUserByEmail(userProfile).subscribe({
     next: ()=>{
-      console.log(2);
       this.user=userProfile;
       this.isReadOnly=true;
     },
     error: (err:HttpErrorResponse)=>{
-      console.log(3);
     }
   });
   // const imagePath=this.updateProfileForm.controls['image'].value;

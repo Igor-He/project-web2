@@ -15,7 +15,10 @@
         <thead class="thead-light">
             <tr>
                 <th scope="col">Username</th>
-                <th scope="col">Password</th>
+                <th scope="col">Email</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Address</th>
                 <th scope="col">Status</th>
                 <th colspan="2"></th>
             </tr>
@@ -24,14 +27,17 @@
             <tr *ngFor="let user of list">
                 <td>{{user.username}}</td>
                 <td>{{user.email}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.surname}}</td>
+                <td>{{user.address}}</td>
                 <td>{{user.status}}</td>
                 <td >
-                    <button *ngIf="user.status==2" (click)="approveUser(user.id)" class="btn btn-primary" >
+                    <button *ngIf="user.status=='Processing'" (click)="approveUser(user.email)" class="btn btn-primary" >
                         Approve
                     </button>
                 </td>
                 <td >
-                    <button *ngIf="user.status==2" (click)="rejectUser(user.id)" class="btn btn-primary" >
+                    <button *ngIf="user.status=='Processing'" (click)="rejectUser(user.email)" class="btn btn-primary" >
                         Reject
                     </button>
                 </td>
