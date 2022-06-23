@@ -21,22 +21,31 @@ export class VerificationComponent implements OnInit {
       },
       error: (err: HttpErrorResponse)=>{}
     });
-    //this.list=this.userService.getDeliverers();
   }
-  approveUser(email: string){
-    // this.userService.approveUser(id);
-    // this.list=this.userService.getDeliverers();
+  approveUser(user: UserProfileDto){
+    user.status="Approved";
+    this.userService.approveRejectDeliverer(user).subscribe({
+      next: ()=>{
+        this.ngOnInit();
+      },
+      error: (err: HttpErrorResponse)=>{}
+    });
   }
 
-  rejectUser(email: string){
-    // this.userService.rejectUser(id);
-    // this.list=this.userService.getDeliverers();
+  rejectUser(user: UserProfileDto){
+    user.status="Reject";
+    this.userService.approveRejectDeliverer(user).subscribe({
+      next: ()=>{
+        this.ngOnInit();
+      },
+      error: (err: HttpErrorResponse)=>{}
+    });
   }
 
   onlyApproved(){
-    // this.list=this.userService.approvedUsers();
+    this.list=this.userService.approvedUsers(this.list);
   }
   all(){
-    //this.list=this.userService.getDeliverers();
+    this.ngOnInit();
   }
 }

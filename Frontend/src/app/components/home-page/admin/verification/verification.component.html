@@ -32,12 +32,12 @@
                 <td>{{user.address}}</td>
                 <td>{{user.status}}</td>
                 <td >
-                    <button *ngIf="user.status=='Processing'" (click)="approveUser(user.email)" class="btn btn-primary" >
+                    <button *ngIf="user.status=='Processing'" (click)="approveUser(user)" class="btn btn-primary" >
                         Approve
                     </button>
                 </td>
                 <td >
-                    <button *ngIf="user.status=='Processing'" (click)="rejectUser(user.email)" class="btn btn-primary" >
+                    <button *ngIf="user.status=='Processing'" (click)="rejectUser(user)" class="btn btn-primary" >
                         Reject
                     </button>
                 </td>

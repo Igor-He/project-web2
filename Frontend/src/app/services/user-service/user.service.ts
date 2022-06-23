@@ -77,18 +77,22 @@ export class UserService {
     }
     return false;    
   }
-  getUserByEmail(){
-    return this.http.get<UserProfileDto>(this.path+"/"+this.getUserEmail());
+  getUserById(){
+    return this.http.get<UserProfileDto>(this.path+"/"+this.getUserId());
   }
-  editUserByEmail(userProfileDto: UserProfileDto ){
-    return this.http.put(this.path+"/"+this.getUserEmail(), userProfileDto);
+  editUserById(userProfileDto: UserProfileDto ){
+    return this.http.put(this.path+"/"+this.getUserId(), userProfileDto);
   }
-  getUserEmail(): string{
+  approveRejectDeliverer(userProfileDto: UserProfileDto){
+    return this.http.put(this.path+"/"+userProfileDto.id, userProfileDto);
+  }
+
+  getUserId(): string{
     const token = localStorage.getItem("token");
     if(token !==null){
       const decodedToken = this.jwtHelper.decodeToken(token);
-      const email = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
-      return email;
+      const id = decodedToken['UserId']
+      return id;
     }
     return ""; 
   }
@@ -98,30 +102,10 @@ export class UserService {
     return this.http.get<UserProfileDto[]>(this.path+"/all-deliverers");
   }
 
-  approveUser(id: number): boolean{
-    let check=false;
-    this.listUsers.forEach(x => {
-      if(x.id==id){
-        let index=this.listUsers.indexOf(x);
-        this.listUsers[index].status=UserStatus.Approved;
-      }
-    });
-    return check;
-  }
-  rejectUser(id: number): boolean{
-    let check=false;
-    this.listUsers.forEach(x => {
-      if(x.id==id){
-        let index=this.listUsers.indexOf(x);
-        this.listUsers[index].status=UserStatus.Reject;
-      }
-    });
-    return check;
-  }
-  approvedUsers(): Array<User>{
-   let list=new Array<User>();
-   this.listUsers.forEach(x => {
-    if(x.type==UserType.Dostavljac && x.status==UserStatus.Approved){
+  approvedUsers(listDeliverers: UserProfileDto[]): UserProfileDto[]{
+   let list: UserProfileDto[]= [];
+   listDeliverers.forEach(x => {
+    if(x.type=="Dostavljac" && x.status=="Approved"){
       list.push(x);
     }
   });

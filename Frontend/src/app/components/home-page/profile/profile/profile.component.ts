@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUserByEmail().subscribe({
+    this.userService.getUserById().subscribe({
       next:(res: UserProfileDto)=>{
         this.user=res;
         this.initForm();
@@ -70,6 +70,7 @@ onSubmit(){
   const type=this.updateProfileForm.controls['type'].value;
   const status=this.updateProfileForm.controls['status'].value;
   const userProfile: UserProfileDto={
+    id: this.user.id,
     username: username,
     email: email,
     name: name,
@@ -80,7 +81,7 @@ onSubmit(){
     status: status
 
   };
-  this.userService.editUserByEmail(userProfile).subscribe({
+  this.userService.editUserById(userProfile).subscribe({
     next: ()=>{
       this.user=userProfile;
       this.isReadOnly=true;

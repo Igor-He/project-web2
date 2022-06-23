@@ -78,11 +78,11 @@ namespace Server.Controllers
             return Ok(new LoginResponseDto { IsAuthSuccessful = true, Token = token });
         }
 
-        [HttpGet("{userEmail}")]
+        [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetUserProfile(string userEmail)
+        public async Task<IActionResult> GetUserProfile(string id)
         {
-            var user = await _userManager.FindByNameAsync(userEmail);
+            var user = await _userManager.FindByIdAsync(id);
             if(user != null)
             {
                 var roles = await _userManager.GetRolesAsync(user);
@@ -100,6 +100,7 @@ namespace Server.Controllers
                 userProfileDto.Username = user.Nickname;
                 userProfileDto.Email = user.Email;
                 userProfileDto.Address = user.Address;
+                userProfileDto.Id = user.Id;
 
                 return Ok(userProfileDto);
             }
@@ -107,15 +108,15 @@ namespace Server.Controllers
 
         }
 
-        [HttpPut("{userEmail}")]
+        [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> EditProfile(string userEmail, UserProfileDto userProfileDto)
+        public async Task<IActionResult> EditProfile(string id, UserProfileDto userProfileDto)
         {
-            if (userEmail != userProfileDto.Email)
+            if (id != userProfileDto.Id)
             {
                 return BadRequest();
             }
-            var user = await _userManager.FindByNameAsync(userEmail);
+            var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return BadRequest();
@@ -125,6 +126,12 @@ namespace Server.Controllers
             user.Nickname = userProfileDto.Username;
             user.Name = userProfileDto.Name;
             user.Surname = userProfileDto.Surname;
+            if (userProfileDto.Status == "Approved")
+                user.Status = UserStatus.Approved;
+            else if (userProfileDto.Status == "Reject")
+                user.Status = UserStatus.Reject;
+            else if (userProfileDto.Status == "Processing")
+                user.Status = UserStatus.Processing;
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
                 return Ok();
@@ -154,6 +161,7 @@ namespace Server.Controllers
                 userProfileDto.Username = user.Nickname;
                 userProfileDto.Email = user.Email;
                 userProfileDto.Address = user.Address;
+                userProfileDto.Id = user.Id;
                 allDeliverersDto.Add(userProfileDto);
             }
            
