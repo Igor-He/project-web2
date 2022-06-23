@@ -1,18 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from 'src/app/entities/product/product';
+import { ProductsDto } from 'src/app/_interfaces/products-dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  path: string="https://localhost:5001/api/products";
   listProducts: Array<Product>;
-  constructor() { 
+  constructor(private http: HttpClient) { 
     this.listProducts=new Array<Product>();
     this.mockedProducts();
   }
 
-  loadProducts(): Array<Product>{
-    return this.listProducts;
+  loadProducts(){
+    return this.http.get<ProductsDto[]>(this.path);
   }
   mockedProducts(){
     const p1=new Product('Pizza', 200, 'Pelat, sir, sunka');

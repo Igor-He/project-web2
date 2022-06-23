@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Server.Data;
 
 namespace Server.Migrations.CRUD_OtherResources
 {
     [DbContext(typeof(CRUD_OtherResourcesContext))]
-    partial class CRUD_OtherResourcesContextModelSnapshot : ModelSnapshot
+    [Migration("20220623174512_AddSecretFieldToProdutsTable")]
+    partial class AddSecretFieldToProdutsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

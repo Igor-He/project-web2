@@ -10,7 +10,7 @@ namespace Server.Data
 {
     public class CRUD_Context:IdentityDbContext<User>
     {
-        public CRUD_Context(DbContextOptions options)
+        public CRUD_Context(DbContextOptions<CRUD_Context> options)
             : base(options)
         {
         }

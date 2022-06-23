@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { EmailValidator, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { UserLoginDto } from 'src/app/entities/dtos/user-login-dto';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { LoginResponseDto } from 'src/app/_interfaces/login-response-dto';
+import { UserForLoginDto } from 'src/app/_interfaces/user-for-login-dto';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     const email=this.loginForm.controls['email'].value;
     const password=this.loginForm.controls['password'].value;
     this.showError=false;
-    const userLoginDto: UserLoginDto={
+    const userLoginDto: UserForLoginDto={
       email:email,
       password:password
     }

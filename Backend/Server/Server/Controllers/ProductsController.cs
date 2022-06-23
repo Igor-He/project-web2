@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Data;
+using Server.DTOs;
 using Server.Models;
 
 namespace Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/products")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -21,11 +22,22 @@ namespace Server.Controllers
             _context = context;
         }
 
-        // GET: api/Products
+        // GET: api/products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
+        public async Task<ActionResult> GetProduct()
         {
-            return await _context.Product.ToListAsync();
+            var allProducts= await _context.Product.ToListAsync();
+            List<ProductsDto> products = new List<ProductsDto>();
+            foreach(Product prod in allProducts)
+            {
+                ProductsDto productsDto = new ProductsDto();
+                productsDto.Id = prod.Id;
+                productsDto.Name = prod.Name;
+                productsDto.Price = prod.Price;
+                productsDto.Ingredient = prod.Ingredient;
+                products.Add(productsDto);
+            }
+            return Ok(products);
         }
 
         // GET: api/Products/5
@@ -74,14 +86,16 @@ namespace Server.Controllers
         }
 
         // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
             _context.Product.Add(product);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            var result=await _context.SaveChangesAsync();
+            if (result > 0)
+                return Ok();
+            else
+                return BadRequest();
+            
         }
 
         // DELETE: api/Products/5

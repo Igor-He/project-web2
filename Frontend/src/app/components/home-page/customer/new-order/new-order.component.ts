@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { OrderStatus } from 'src/app/entities/enums/order-status.enum';
 import { Order } from 'src/app/entities/order/order';
@@ -7,6 +8,7 @@ import { User } from 'src/app/entities/user/user';
 import { OrderService } from 'src/app/services/order-service/order.service';
 import { ProductService } from 'src/app/services/product-service/product.service';
 import { UserService } from 'src/app/services/user-service/user.service';
+import { ProductsDto } from 'src/app/_interfaces/products-dto';
 
 @Component({
   selector: 'app-new-order',
@@ -14,7 +16,7 @@ import { UserService } from 'src/app/services/user-service/user.service';
   styleUrls: ['./new-order.component.css']
 })
 export class NewOrderComponent implements OnInit {
-  list: Array<Product>;
+  list: ProductsDto[];
   cart: Array<ProductOrder>;
   price: number;
   priceDeliver: number;
@@ -23,39 +25,44 @@ export class NewOrderComponent implements OnInit {
   constructor(private productService:ProductService, private userService:UserService, private orderService:OrderService) { }
 
   ngOnInit(): void {
-    const userId = JSON.parse(localStorage.getItem('sessionId') || '{}');
-    this.user=this.userService.listUsers.find(x=>x.id==userId) || new User();
-    this.list=this.productService.listProducts;
+    // const userId = JSON.parse(localStorage.getItem('sessionId') || '{}');
+    // this.user=this.userService.listUsers.find(x=>x.id==userId) || new User();
+    this.productService.loadProducts().subscribe({
+      next: (res: ProductsDto[])=>{
+        this.list=res;
+      },
+      error: (err: HttpErrorResponse)=>{}
+    });
     this.cart=new Array<ProductOrder>();
     this.price=0;
     this.priceDeliver=0;
   }
   addToCart(name:string){
-    let exist=false;
-    const prod=this.productService.findProduct(name);
-    this.cart.forEach(x => {
-      if(x.product==prod){
-        x.quantity+=1;
-        this.price+=x.product.price;
-        this.priceDeliver=this.price+290;
-        exist=true;
-      }
-    });
-    if(!exist){
-      const quantity=1;
-      this.cart.push(new ProductOrder(prod, quantity));
-      this.price+=prod.price;
-      this.priceDeliver=this.price+290;
-    }
+    // let exist=false;
+    // const prod=this.productService.findProduct(name);
+    // this.cart.forEach(x => {
+    //   if(x.product==prod){
+    //     x.quantity+=1;
+    //     this.price+=x.product.price;
+    //     this.priceDeliver=this.price+290;
+    //     exist=true;
+    //   }
+    // });
+    // if(!exist){
+    //   const quantity=1;
+    //   this.cart.push(new ProductOrder(prod, quantity));
+    //   this.price+=prod.price;
+    //   this.priceDeliver=this.price+290;
+    // }
   }
 
   createOrder(){
-    let comment = (<HTMLInputElement> document.getElementById("comment")).value;
-    this.orderService.createOrder(new Order(0, this.cart, this.user.address, comment, this.priceDeliver, -1, this.user.id, OrderStatus.Ordered, new Date()));
+    // let comment = (<HTMLInputElement> document.getElementById("comment")).value;
+    // this.orderService.createOrder(new Order(0, this.cart, this.user.address, comment, this.priceDeliver, -1, this.user.id, OrderStatus.Ordered, new Date()));
     
-    this.ordered=true;
-    this.cart=new Array<ProductOrder>();
-    console.log(this.orderService.listOrders);
+    // this.ordered=true;
+    // this.cart=new Array<ProductOrder>();
+    // console.log(this.orderService.listOrders);
   }
 
 }
