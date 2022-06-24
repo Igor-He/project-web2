@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OrderStatus } from 'src/app/entities/enums/order-status.enum';
 import { UserStatus } from 'src/app/entities/enums/user-status.enum';
@@ -7,6 +8,7 @@ import { Order } from 'src/app/entities/order/order';
 import { ProductOrder } from 'src/app/entities/product-order/product-order';
 import { Product } from 'src/app/entities/product/product';
 import { User } from 'src/app/entities/user/user';
+import { OrderDto } from 'src/app/_interfaces/order-dto';
 import { UserService } from '../user-service/user.service';
 
 @Injectable({
@@ -14,7 +16,8 @@ import { UserService } from '../user-service/user.service';
 })
 export class OrderService {
   listOrders: Array<Order>;
-  constructor(private userService:UserService) { 
+  path: string="https://localhost:5001/api/orders";
+  constructor(private userService:UserService, private http: HttpClient) { 
     this.listOrders=new Array<Order>();
     this.mockedOrders();
   }
@@ -35,8 +38,8 @@ export class OrderService {
     this.listOrders.push(o3);
     this.listOrders.push(o4);
   }
-  createOrder(o: Order){
-    this.listOrders.push(o);
+  createOrder(order: OrderDto){
+    return this.http.post(this.path, order);
   }
   findCurrentOrder(userId: number): Order{
     let userType: UserType;

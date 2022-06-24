@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Dodavanje proizvoda</h1>
-    <h2 *ngIf="isAdded==true">Uspesno ste dodali proizvod.Klikni<a routerLink="/home"> ovde</a> za povratak.</h2>
+    <h2 *ngIf="isAdded==true">Uspesno ste dodali proizvod</h2>
     <form [formGroup]="newProductForm" (ngSubmit)="onSubmit()">
         <div class="row">
             <div class="col-sm-6 form-group">

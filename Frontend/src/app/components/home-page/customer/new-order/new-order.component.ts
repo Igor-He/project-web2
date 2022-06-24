@@ -8,6 +8,8 @@ import { User } from 'src/app/entities/user/user';
 import { OrderService } from 'src/app/services/order-service/order.service';
 import { ProductService } from 'src/app/services/product-service/product.service';
 import { UserService } from 'src/app/services/user-service/user.service';
+import { OrderDto } from 'src/app/_interfaces/order-dto';
+import { ProductOrderDto } from 'src/app/_interfaces/product-order-dto';
 import { ProductsDto } from 'src/app/_interfaces/products-dto';
 
 @Component({
@@ -17,52 +19,64 @@ import { ProductsDto } from 'src/app/_interfaces/products-dto';
 })
 export class NewOrderComponent implements OnInit {
   list: ProductsDto[];
-  cart: Array<ProductOrder>;
+  cart: ProductOrderDto[];
   price: number;
   priceDeliver: number;
-  user: User;
   ordered: boolean=false;
   constructor(private productService:ProductService, private userService:UserService, private orderService:OrderService) { }
 
   ngOnInit(): void {
-    // const userId = JSON.parse(localStorage.getItem('sessionId') || '{}');
-    // this.user=this.userService.listUsers.find(x=>x.id==userId) || new User();
     this.productService.loadProducts().subscribe({
       next: (res: ProductsDto[])=>{
         this.list=res;
       },
       error: (err: HttpErrorResponse)=>{}
     });
-    this.cart=new Array<ProductOrder>();
+    this.cart=[];
     this.price=0;
     this.priceDeliver=0;
   }
-  addToCart(name:string){
-    // let exist=false;
-    // const prod=this.productService.findProduct(name);
-    // this.cart.forEach(x => {
-    //   if(x.product==prod){
-    //     x.quantity+=1;
-    //     this.price+=x.product.price;
-    //     this.priceDeliver=this.price+290;
-    //     exist=true;
-    //   }
-    // });
-    // if(!exist){
-    //   const quantity=1;
-    //   this.cart.push(new ProductOrder(prod, quantity));
-    //   this.price+=prod.price;
-    //   this.priceDeliver=this.price+290;
-    // }
+  addToCart(prod:ProductsDto){
+    let exist=false;
+    this.cart.forEach(x => {
+      if(x.product==prod){
+        x.quantity+=1;
+        this.price+=x.product.price;
+        this.priceDeliver=this.price+290;
+        exist=true;
+      }
+    });
+    if(!exist){
+      const quantity=1;
+      const prodOrderDto: ProductOrderDto={
+        product: prod,
+        quantity: quantity
+      }
+      this.cart.push(prodOrderDto);
+      this.price+=prod.price;
+      this.priceDeliver=this.price+290;
+    }
   }
 
   createOrder(){
-    // let comment = (<HTMLInputElement> document.getElementById("comment")).value;
-    // this.orderService.createOrder(new Order(0, this.cart, this.user.address, comment, this.priceDeliver, -1, this.user.id, OrderStatus.Ordered, new Date()));
-    
-    // this.ordered=true;
-    // this.cart=new Array<ProductOrder>();
-    // console.log(this.orderService.listOrders);
+    let comment = (<HTMLInputElement> document.getElementById("comment")).value;
+    let address = (<HTMLInputElement> document.getElementById("address")).value;
+    const orderDto: OrderDto={
+      products: this.cart,
+      address: address,
+      comment: comment,
+      price: this.priceDeliver,
+      customerId: this.userService.getUserId(),
+      status: OrderStatus.Ordered
+
+    };
+    this.orderService.createOrder(orderDto).subscribe({
+      next: ()=>{
+        this.ordered=true;
+        this.cart=[];
+      },
+      error: (err: HttpErrorResponse)=>{}
+    });
   }
 
 }

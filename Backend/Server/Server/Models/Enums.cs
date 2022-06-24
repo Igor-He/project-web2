@@ -18,4 +18,11 @@ namespace Server.Models
         Reject = 1,
         Processing = 2
     }
+
+    public enum OrderStatus
+    {
+        Ordered,
+        OnTheWay,
+        Delivered 
+    }
 }
