@@ -46,6 +46,42 @@ namespace Server.Controllers
             return order;
         }
 
+
+        [HttpGet("available")]
+        public async Task<ActionResult> GetAvailableOrders()
+        {
+            var orders = await _context.Orders.Where(x=> x.DelivererId==null).Include(x=> x.Products).ThenInclude(x=>x.Product).ToListAsync();
+            List<OrderForDelivererDto> retList = new List<OrderForDelivererDto>();
+            foreach (Order order in orders)
+            {
+                OrderForDelivererDto ord = new OrderForDelivererDto();
+                ord.Address = order.Address;
+                ord.Comment= order.Comment;
+                ord.CustomerId= order.CustomerId;
+                ord.Id= order.Id;
+                ord.Price= order.Price;
+                List<ProductOrderDto> prOrd = new List<ProductOrderDto>();
+                foreach(ProductOrder prod in order.Products)
+                {
+                    ProductsDto pDto = new ProductsDto();
+                    pDto.Id = prod.Product.Id;
+                    pDto.Ingredient = prod.Product.Ingredient;
+                    pDto.Name = prod.Product.Name;
+                    pDto.Price = prod.Product.Price;
+
+                    ProductOrderDto dto = new ProductOrderDto();
+                    dto.Product = pDto;
+                    dto.Quantity = prod.Quantity;
+                    prOrd.Add(dto);
+                    
+                }
+                ord.Products = prOrd;
+                retList.Add(ord);
+
+            }
+
+            return Ok(retList);
+        }
         // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

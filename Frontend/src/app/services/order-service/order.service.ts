@@ -9,6 +9,7 @@ import { ProductOrder } from 'src/app/entities/product-order/product-order';
 import { Product } from 'src/app/entities/product/product';
 import { User } from 'src/app/entities/user/user';
 import { OrderDto } from 'src/app/_interfaces/order-dto';
+import { OrderForDelivererDto } from 'src/app/_interfaces/order-for-deliverer-dto';
 import { UserService } from '../user-service/user.service';
 
 @Injectable({
@@ -59,14 +60,8 @@ export class OrderService {
 
     return order;
   }
-  freeOrdersforDeliverers(): Array<Order>{
-    let list: Array<Order>=new Array<Order>();
-    this.listOrders.forEach(x => {
-      if(x.status==OrderStatus.Ordered){
-        list.push(x);
-      }
-    });
-    return list;
+  freeOrdersforDeliverers(){
+    return this.http.get<OrderForDelivererDto[]>(this.path+'/available');
   }
 
   allOrders(userId: number): Array<Order>{

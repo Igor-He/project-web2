@@ -10,7 +10,6 @@
                 <th scope="col">price</th>
                 <th scope="col">Adresa</th>
                 <th scope="col">Customer id</th>
-                <th scope="col">status</th>
                 <th colspan="1"></th>
             </tr>
         </thead>
@@ -25,9 +24,8 @@
                 <td>${{order.price}}.00</td>
                 <td>{{order.address}}</td>
                 <td>{{order.customerId}}</td>
-                <td>{{order.status}}</td>
                  <td >
-                    <button  (click)="add(order.id)" class="btn btn-primary" >
+                    <button  (click)="add()" class="btn btn-primary" >
                         Preuzmi
                     </button>
                 </td> 
