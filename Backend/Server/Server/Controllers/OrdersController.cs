@@ -32,18 +32,43 @@ namespace Server.Controllers
             return await _context.Orders.ToListAsync();
         }
 
-        // GET: api/Orders/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
+        // GET: api/Orders/current
+        [HttpPost("current")]
+        public async Task<ActionResult> GetOrder(string userId)
         {
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _context.Orders.Include(x => x.Products).ThenInclude(x => x.Product).FirstAsync(x=>(x.CustomerId==userId || x.DelivererId==userId) && x.OrderStatus!=OrderStatus.Delivered);
 
             if (order == null)
             {
-                return NotFound();
+                return BadRequest();
             }
+            OrderDto orderDto = new OrderDto();
+            orderDto.Address = order.Address;
+            orderDto.Comment = order.Comment;
+            orderDto.CustomerId = order.CustomerId;
+            orderDto.OrderStatus = order.OrderStatus;
+            orderDto.DelivererId = order.DelivererId;
+            //orderDto.DeliveryTime = order.DeliveryTime; int year, int month, int day, int hour, int minute, int second)
+            orderDto.DeliveryTime = new DateTime(2022, 6, 25, 00, 8, 00);
+            orderDto.Id = order.Id;
+            orderDto.Price = order.Price;
+            List<ProductOrderDto> prOrd = new List<ProductOrderDto>();
+            foreach (ProductOrder prod in order.Products)
+            {
+                ProductsDto pDto = new ProductsDto();
+                pDto.Id = prod.Product.Id;
+                pDto.Ingredient = prod.Product.Ingredient;
+                pDto.Name = prod.Product.Name;
+                pDto.Price = prod.Product.Price;
 
-            return order;
+                ProductOrderDto dto = new ProductOrderDto();
+                dto.Product = pDto;
+                dto.Quantity = prod.Quantity;
+                prOrd.Add(dto);
+
+            }
+            orderDto.Products = prOrd;
+            return Ok(orderDto);
         }
 
 

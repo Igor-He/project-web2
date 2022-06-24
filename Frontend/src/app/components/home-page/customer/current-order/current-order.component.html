@@ -10,12 +10,13 @@
               <div class="row">
                 <div class="col mb-3">
                   <p class="small text-muted mb-1">Vreme do dostave</p>
-                  <p *ngIf="order.status=='Ordered'">Ceka se dostavljac</p>
-                  <p *ngIf="order.status=='On the way'">{{minutes}}:{{seconds}}</p>
+                  <!-- <p *ngIf="status!='Ordered'">Ceka se dostavljac</p> -->
+                  <p *ngIf="status!='Ordered'">{{minutes}}:{{seconds}}</p>
                 </div>
                 <div class="col mb-3">
                   <p class="small text-muted mb-1">Id dostave</p>
-                  <p>No. #{{order.id}}, D#{{order.delivererId}} C#{{order.customerId}}</p>
+                  <!-- <p>No. #{{order.id}}, D#{{order.delivererId}} C#{{order.customerId}}</p> -->
+                  <p>No. #{{order.id}} C#{{order.customerId}}</p>
                 </div>
               </div>
   
@@ -49,7 +50,7 @@
               <div class="row">
                 <div class="col-lg-12">
   
-                  <div *ngIf="order.status=='On the way'" class="horizontal-timeline">
+                  <div *ngIf="status=='Ordered'" class="horizontal-timeline">
   
                     <ul class="list-inline items d-flex justify-content-between">
                       <li class="list-inline-item items-list">
@@ -66,7 +67,7 @@
   
                   </div>
 
-                  <div *ngIf="order.status=='Ordered'" class="horizontal-timeline">
+                  <div *ngIf="status!='Ordered'" class="horizontal-timeline">
   
                     <ul class="list-inline items d-flex justify-content-between">
                       <li class="list-inline-item items-list">

@@ -42,23 +42,8 @@ export class OrderService {
   createOrder(order: OrderDto){
     return this.http.post(this.path, order);
   }
-  findCurrentOrder(userId: number): Order{
-    let userType: UserType;
-    this.userService.listUsers.forEach(x => {
-      if(x.id==userId){
-        userType=x.type;
-      }
-    });
-    let order:Order=new Order();
-    this.listOrders.forEach(x => {
-      if(userType==UserType.Dostavljac && (x.delivererId==userId) && x.status==OrderStatus.OnTheWay){
-        order=x;
-      }else if (userType==UserType.Potrosac && x.customerId==userId && (x.status==OrderStatus.Ordered || x.status==OrderStatus.OnTheWay)){
-        order=x;
-      }
-    });
-
-    return order;
+  findCurrentOrder(){
+    return this.http.post<OrderDto>(this.path+'/current', this.userService.getUserId());
   }
   freeOrdersforDeliverers(){
     return this.http.get<OrderForDelivererDto[]>(this.path+'/available');

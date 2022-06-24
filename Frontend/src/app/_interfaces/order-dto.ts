@@ -9,6 +9,6 @@ export interface OrderDto {
     price: number;
     delivererId?: string;
     customerId: string;
-    status: OrderStatus;
+    orderStatus: OrderStatus;
     deliveryTime?: Date;
 }
