@@ -16,8 +16,8 @@ namespace Server.Models
         public string Address { get; set; }
         public string? Comment { get; set; }
         public int Price { get; set; }
-        public User? Deliverer { get; set; }
-        public User Customer { get; set; }
+        public string? DelivererId { get; set; }
+        public string CustomerId { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public DateTime? DeliveryTime { get; set; }
         public string? Secret { get; set; }

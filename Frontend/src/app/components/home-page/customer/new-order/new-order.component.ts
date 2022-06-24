@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user-service/user.service';
 import { OrderDto } from 'src/app/_interfaces/order-dto';
 import { ProductOrderDto } from 'src/app/_interfaces/product-order-dto';
 import { ProductsDto } from 'src/app/_interfaces/products-dto';
+import { UserProfileDto } from 'src/app/_interfaces/user-profile-dto';
 
 @Component({
   selector: 'app-new-order',
@@ -20,6 +21,7 @@ import { ProductsDto } from 'src/app/_interfaces/products-dto';
 export class NewOrderComponent implements OnInit {
   list: ProductsDto[];
   cart: ProductOrderDto[];
+  address: string;
   price: number;
   priceDeliver: number;
   ordered: boolean=false;
@@ -35,6 +37,13 @@ export class NewOrderComponent implements OnInit {
     this.cart=[];
     this.price=0;
     this.priceDeliver=0;
+    this.userService.getUserById().subscribe({
+      next: (res: UserProfileDto)=>{
+        this.address=res.address;
+      },
+      error: (err:HttpErrorResponse)=>{}
+    });
+
   }
   addToCart(prod:ProductsDto){
     let exist=false;
@@ -60,10 +69,9 @@ export class NewOrderComponent implements OnInit {
 
   createOrder(){
     let comment = (<HTMLInputElement> document.getElementById("comment")).value;
-    let address = (<HTMLInputElement> document.getElementById("address")).value;
     const orderDto: OrderDto={
       products: this.cart,
-      address: address,
+      address: this.address,
       comment: comment,
       price: this.priceDeliver,
       customerId: this.userService.getUserId(),
@@ -74,6 +82,8 @@ export class NewOrderComponent implements OnInit {
       next: ()=>{
         this.ordered=true;
         this.cart=[];
+        this.price=0;
+        this.priceDeliver=0;
       },
       error: (err: HttpErrorResponse)=>{}
     });

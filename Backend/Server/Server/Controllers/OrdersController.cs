@@ -98,7 +98,7 @@ namespace Server.Controllers
             order.Address = orderDto.Address;
             order.Comment = orderDto.Comment;
             order.Price = orderDto.Price;
-            order.Customer = await _userManager.FindByIdAsync(orderDto.CustomerId);
+            order.CustomerId = orderDto.CustomerId;
             order.OrderStatus = orderDto.OrderStatus;
             order.Products = products;
 
