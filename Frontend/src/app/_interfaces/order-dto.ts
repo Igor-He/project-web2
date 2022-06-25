@@ -1,4 +1,3 @@
-import { OrderStatus } from "../entities/enums/order-status.enum";
 import { ProductOrderDto } from "./product-order-dto";
 
 export interface OrderDto {
@@ -9,6 +8,6 @@ export interface OrderDto {
     price: number;
     delivererId?: string;
     customerId: string;
-    orderStatus: OrderStatus;
+    orderStatus: string;
     deliveryTime?: Date;
 }

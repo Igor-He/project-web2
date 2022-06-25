@@ -25,31 +25,15 @@ export class CurrentOrderComponent implements OnInit {
   ngOnInit(): void {
     this.orderService.findCurrentOrder().subscribe({
       next: (res: OrderDto)=>{
-        // let c1=res.orderStatus;
-        // console.log(res);
-        // console.log(typeof(c1));
         this.order=res;
-        if(res.orderStatus==OrderStatus.Ordered)
-          this.status='Ordered';
-        else if(res.orderStatus==OrderStatus.OnTheWay)
-          this.status='OnTheWay';
-        else if(res.orderStatus==OrderStatus.Delivered)
-          this.status='Delivered';
-        // console.log('status:'+ this.status);
+        console.log('status:'+ this.status);
         if(res.deliveryTime!=null ){
           let date=new Date(res.deliveryTime);
           let currentDate:Date=new Date();
           console.log(date);
           console.log(currentDate);
-          if(currentDate.getSeconds()!==0)
-            this.minutes=Math.abs((date.getMinutes()-1)-currentDate.getMinutes());
-          else
-            this.minutes=Math.abs(date.getMinutes()-currentDate.getMinutes());
-          if(date.getMinutes()==0 || currentDate.getMinutes()==0)
-            this.seconds=60-Math.abs(date.getSeconds()-currentDate.getSeconds());
-          else
-            this.seconds=60-Math.abs(date.getSeconds()-currentDate.getSeconds());
-          //console.log(date);
+          this.setMinutesAndSeconds(date, currentDate);
+          
           console.log(this.minutes);
           console.log(this.seconds);
         }
@@ -57,14 +41,27 @@ export class CurrentOrderComponent implements OnInit {
       },
       error: (err: HttpErrorResponse)=>{}
     });
-
-    
-    
-    console.log(this.minutes)
-    console.log(this.seconds)
-    //console.log(this.order.deliveryTime)
-    //console.log(currentDate)
     this.startTimer();
+  }
+
+  setMinutesAndSeconds(date: Date, currentDate: Date){
+    if(date.getMinutes()>=currentDate.getMinutes()){
+      if(date.getSeconds()>=currentDate.getSeconds()){
+        this.minutes=Math.abs((date.getMinutes())-currentDate.getMinutes());
+        this.seconds=Math.abs(date.getSeconds()-currentDate.getSeconds());
+      }else if(date.getSeconds()<currentDate.getSeconds()){
+        this.minutes=Math.abs((date.getMinutes()-1)-currentDate.getMinutes());
+        this.seconds=(60-currentDate.getSeconds())+date.getSeconds();
+      }
+    }else if(date.getMinutes()<currentDate.getMinutes()){
+      if(date.getSeconds()>=currentDate.getSeconds()){
+        this.minutes=(60-currentDate.getMinutes())+date.getMinutes();
+        this.seconds=Math.abs(date.getSeconds()-currentDate.getSeconds());
+      }else if(date.getSeconds()<currentDate.getSeconds()){
+        this.minutes=(60-currentDate.getMinutes())+date.getMinutes();
+        this.seconds=(60-currentDate.getSeconds())+date.getSeconds();
+      }
+    }
   }
   startTimer() {
     this.interval = setInterval(() => {

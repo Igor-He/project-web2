@@ -75,7 +75,7 @@ export class NewOrderComponent implements OnInit {
       comment: comment,
       price: this.priceDeliver,
       customerId: this.userService.getUserId(),
-      orderStatus: OrderStatus.Ordered
+      orderStatus: 'Ordered'
 
     };
     this.orderService.createOrder(orderDto).subscribe({

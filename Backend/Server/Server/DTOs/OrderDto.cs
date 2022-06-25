@@ -15,7 +15,7 @@ namespace Server.DTOs
         public int Price { get; set; }
         public string? DelivererId { get; set; }
         public string CustomerId { get; set; }
-        public OrderStatus OrderStatus { get; set; }
+        public string OrderStatus { get; set; }
         public DateTime? DeliveryTime { get; set; }
     }
 }

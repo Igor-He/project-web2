@@ -8,8 +8,10 @@ import { Order } from 'src/app/entities/order/order';
 import { ProductOrder } from 'src/app/entities/product-order/product-order';
 import { Product } from 'src/app/entities/product/product';
 import { User } from 'src/app/entities/user/user';
+import { FindCurrentOrderDto } from 'src/app/_interfaces/find-current-order-dto';
 import { OrderDto } from 'src/app/_interfaces/order-dto';
 import { OrderForDelivererDto } from 'src/app/_interfaces/order-for-deliverer-dto';
+import { PickUpOrderDto } from 'src/app/_interfaces/pick-up-order-dto';
 import { UserService } from '../user-service/user.service';
 
 @Injectable({
@@ -43,7 +45,10 @@ export class OrderService {
     return this.http.post(this.path, order);
   }
   findCurrentOrder(){
-    return this.http.post<OrderDto>(this.path+'/current', this.userService.getUserId());
+    const findCurrentOrderDto:FindCurrentOrderDto={
+      userId: this.userService.getUserId()
+    };
+    return this.http.post<OrderDto>(this.path+'/current', findCurrentOrderDto);
   }
   freeOrdersforDeliverers(){
     return this.http.get<OrderForDelivererDto[]>(this.path+'/available');
@@ -74,16 +79,7 @@ export class OrderService {
     return list;
   }
 
-  orderAcceptedByDeliverer(orderId:number, userId:number){
-    this.listOrders.forEach(x => {
-      if(x.id==orderId){
-        x.delivererId=userId;
-        x.status=OrderStatus.OnTheWay;
-        let date: Date=new Date();    
-        date.setMinutes(date.getMinutes()+5);
-        x.deliveryTime=date;
-        console.log(date);
-      }
-    });
+  orderAcceptedByDeliverer(pickUpOrderDto:PickUpOrderDto){
+    return this.http.put(this.path, pickUpOrderDto);
   }
 }

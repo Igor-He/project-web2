@@ -34,9 +34,9 @@ namespace Server.Controllers
 
         // GET: api/Orders/current
         [HttpPost("current")]
-        public async Task<ActionResult> GetOrder(string userId)
+        public async Task<ActionResult> GetCurrentOrder(FindCurrentOrderDto current)
         {
-            var order = await _context.Orders.Include(x => x.Products).ThenInclude(x => x.Product).FirstAsync(x=>(x.CustomerId==userId || x.DelivererId==userId) && x.OrderStatus!=OrderStatus.Delivered);
+            var order = await _context.Orders.Include(x => x.Products).ThenInclude(x => x.Product).FirstAsync(x=>(x.CustomerId== current.UserId || x.DelivererId==current.UserId) && x.OrderStatus!=OrderStatus.Delivered);
 
             if (order == null)
             {
@@ -46,10 +46,14 @@ namespace Server.Controllers
             orderDto.Address = order.Address;
             orderDto.Comment = order.Comment;
             orderDto.CustomerId = order.CustomerId;
-            orderDto.OrderStatus = order.OrderStatus;
+            if (order.OrderStatus == OrderStatus.Ordered)
+                orderDto.OrderStatus ="Ordered" ;
+            else if (order.OrderStatus == OrderStatus.Delivered)
+                orderDto.OrderStatus = "Delivered";
+            else
+                orderDto.OrderStatus = "OnTheWay";
             orderDto.DelivererId = order.DelivererId;
-            //orderDto.DeliveryTime = order.DeliveryTime; int year, int month, int day, int hour, int minute, int second)
-            orderDto.DeliveryTime = new DateTime(2022, 6, 25, 00, 8, 00);
+            orderDto.DeliveryTime = order.DeliveryTime;
             orderDto.Id = order.Id;
             orderDto.Price = order.Price;
             List<ProductOrderDto> prOrd = new List<ProductOrderDto>();
@@ -109,14 +113,18 @@ namespace Server.Controllers
         }
         // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(int id, Order order)
+        [HttpPut]
+        public async Task<IActionResult> PutOrder(PickUpOrderDto orderDto)
         {
-            if (id != order.Id)
+            var order = await _context.Orders.FindAsync(orderDto.OrderId);
+            if (order==null)
             {
                 return BadRequest();
             }
-
+            order.DelivererId = orderDto.DelivererId;
+            DateTime currentDate = DateTime.Now;
+            order.DeliveryTime = currentDate.AddMinutes(6);
+            order.OrderStatus = OrderStatus.OnTheWay;
             _context.Entry(order).State = EntityState.Modified;
 
             try
@@ -125,17 +133,10 @@ namespace Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OrderExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest();
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/orders
@@ -160,7 +161,12 @@ namespace Server.Controllers
             order.Comment = orderDto.Comment;
             order.Price = orderDto.Price;
             order.CustomerId = orderDto.CustomerId;
-            order.OrderStatus = orderDto.OrderStatus;
+            if(orderDto.OrderStatus=="Ordered")
+                order.OrderStatus = OrderStatus.Ordered;
+            else if (orderDto.OrderStatus == "Delivered")
+                order.OrderStatus = OrderStatus.Delivered;
+            else
+                order.OrderStatus = OrderStatus.OnTheWay;
             order.Products = products;
 
             _context.Orders.Add(order);
