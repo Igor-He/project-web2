@@ -74,7 +74,22 @@ namespace Server.Controllers
             orderDto.Products = prOrd;
             return Ok(orderDto);
         }
-
+        
+        [HttpPost("is-new")]
+        public async Task<ActionResult> IsNewOrCurrent(FindCurrentOrderDto current)
+        {
+            IsNewDto isNew = new IsNewDto();
+            try
+            {
+                var order = await _context.Orders.Include(x => x.Products).ThenInclude(x => x.Product).FirstAsync(x => (x.CustomerId == current.UserId || x.DelivererId == current.UserId) && x.OrderStatus != OrderStatus.Delivered);
+                isNew.IsNew = false;
+            }
+            catch
+            {
+                isNew.IsNew = true;
+            }
+            return Ok(isNew);
+        }
 
         [HttpGet("available")]
         public async Task<ActionResult> GetAvailableOrders()

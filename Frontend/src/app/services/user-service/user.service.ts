@@ -16,7 +16,6 @@ import { UserForLoginDto } from 'src/app/_interfaces/user-for-login-dto';
   providedIn: 'root'
 })
 export class UserService {
-  listUsers: Array<User>;
   path: string="https://localhost:5001/api/users";
   private authChangeSub = new Subject<boolean>()
   public authChanged = this.authChangeSub.asObservable();
@@ -56,6 +55,15 @@ export class UserService {
     }
     return false;    
   }
+  getUserType(): string{
+    const token = localStorage.getItem("token");
+    if(token !==null){
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+      return role;
+    }
+    return "";
+  }
   getUserById(){
     return this.http.get<UserProfileDto>(this.path+"/"+this.getUserId());
   }
@@ -90,17 +98,6 @@ export class UserService {
   });
     return list;
   }
-
-   getUserType(userId: number): UserType{
-    let type: UserType=UserType.Potrosac;
-    this.listUsers.forEach(x => {
-      if(x.id==userId){
-        type=x.type;
-      }
-    });
-    return type;
-  }
-
   public registerUser = (body: UserForRegistrationDto) => {
     return this.http.post<RegistrationResponseDto> (this.path+"/registration", body);
   }

@@ -1,2 +1,8 @@
-<app-new-order></app-new-order>
-<!-- <app-current-order></app-current-order> -->
+<div *ngIf="userType=='Potrosac'">
+    <app-new-order *ngIf="isNew==true"></app-new-order>
+    <app-current-order *ngIf="isNew==false"></app-current-order> 
+</div>
+<div *ngIf="userType=='Dostavljac'">
+    <app-get-order *ngIf="isNew==true"></app-get-order>
+    <app-current-order *ngIf="isNew==false"></app-current-order> 
+</div>

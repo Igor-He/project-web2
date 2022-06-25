@@ -84,6 +84,7 @@ export class NewOrderComponent implements OnInit {
         this.cart=[];
         this.price=0;
         this.priceDeliver=0;
+        this.orderService.sendStateChangeNotification(false);
       },
       error: (err: HttpErrorResponse)=>{}
     });

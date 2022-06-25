@@ -26,16 +26,10 @@ export class CurrentOrderComponent implements OnInit {
     this.orderService.findCurrentOrder().subscribe({
       next: (res: OrderDto)=>{
         this.order=res;
-        console.log('status:'+ this.status);
         if(res.deliveryTime!=null ){
           let date=new Date(res.deliveryTime);
           let currentDate:Date=new Date();
-          console.log(date);
-          console.log(currentDate);
           this.setMinutesAndSeconds(date, currentDate);
-          
-          console.log(this.minutes);
-          console.log(this.seconds);
         }
         
       },
@@ -73,6 +67,7 @@ export class CurrentOrderComponent implements OnInit {
           this.minutes--;
         }
         if(this.seconds==0 && this.minutes==0){
+          this.orderService.sendStateChangeNotification(true);
           clearInterval(this.interval);
         }
     },1000)

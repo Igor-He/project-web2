@@ -17,9 +17,7 @@ export class AllOrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const userId = JSON.parse(localStorage.getItem('sessionId') || '{}');
-    this.user=this.userService.listUsers.find(x=>x.id==userId) || new User();
-    this.list=this.orderService.allOrders(userId);
+    this.list=new Array<Order>();
   }
 
 }
