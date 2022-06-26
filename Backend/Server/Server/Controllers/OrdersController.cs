@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace Server.Controllers
 {
     [Route("api/orders")]
     [ApiController]
+    [Authorize]
     public class OrdersController : ControllerBase
     {
         private readonly CRUD_OtherResourcesContext _context;
@@ -84,6 +86,7 @@ namespace Server.Controllers
 
         // GET: api/Orders/current
         [HttpPost("current")]
+        [Authorize(Roles ="Dostavljac,Potrosac")]
         public async Task<ActionResult> GetCurrentOrder(FindCurrentOrderDto current)
         {
             var order = await _context.Orders.Include(x => x.Products).ThenInclude(x => x.Product).FirstAsync(x=>(x.CustomerId== current.UserId || x.DelivererId==current.UserId) && x.OrderStatus!=OrderStatus.Delivered);
@@ -126,6 +129,7 @@ namespace Server.Controllers
         }
         
         [HttpPost("is-new")]
+        [Authorize(Roles = "Dostavljac,Potrosac")]
         public async Task<ActionResult> IsNewOrCurrent(FindCurrentOrderDto current)
         {
             IsNewDto isNew = new IsNewDto();
@@ -141,6 +145,7 @@ namespace Server.Controllers
             return Ok(isNew);
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Dostavljac,Potrosac")]
         public async Task<IActionResult> ChangeOrder(string id)
         {
             var order = await _context.Orders.FindAsync(int.Parse(id));
@@ -165,6 +170,7 @@ namespace Server.Controllers
 
         }
         [HttpGet("available")]
+        [Authorize(Roles = "Dostavljac")]
         public async Task<ActionResult> GetAvailableOrders()
         {
             var orders = await _context.Orders.Where(x=> x.DelivererId==null).Include(x=> x.Products).ThenInclude(x=>x.Product).ToListAsync();
@@ -201,6 +207,7 @@ namespace Server.Controllers
         }
         // PUT: api/Orders
         [HttpPut]
+        [Authorize(Roles = "Dostavljac,Potrosac")]
         public async Task<IActionResult> PutOrder(PickUpOrderDto orderDto)
         {
             var order = await _context.Orders.FindAsync(orderDto.OrderId);
@@ -228,6 +235,7 @@ namespace Server.Controllers
 
         // POST: api/orders
         [HttpPost]
+        [Authorize(Roles = "Dostavljac,Potrosac")]
         public async Task<ActionResult> PostOrder(OrderDto orderDto)
         {
             List<ProductOrder> products = new List<ProductOrder>();

@@ -140,7 +140,7 @@ namespace Server.Controllers
         }
 
         [HttpGet("all-deliverers")]
-        //Authorize(Roles ="Administrator")]
+        [Authorize(Roles ="Administrator")]
         public async Task<IActionResult> GetAllDeliverers()
         {
             var deliverers = await _userManager.GetUsersInRoleAsync("Dostavljac");

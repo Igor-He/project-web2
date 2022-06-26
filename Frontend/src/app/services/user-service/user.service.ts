@@ -19,11 +19,19 @@ export class UserService {
   path: string="https://localhost:5001/api/users";
   private authChangeSub = new Subject<boolean>()
   public authChanged = this.authChangeSub.asObservable();
+
+  private typeChangeSub=new Subject<string>()
+  public typeChanged=this.typeChangeSub.asObservable();
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { 
   }
 
   sendLoginStateChangeNotification (isAuthenticated: boolean){
+    this.sendTypeStateChangeNotification(this.getUserType())
     this.authChangeSub.next(isAuthenticated);
+  }
+
+  sendTypeStateChangeNotification (change: string){
+    this.typeChangeSub.next(change);
   }
 
   isUserAuthenticated(): boolean{
@@ -52,6 +60,26 @@ export class UserService {
       const decodedToken = this.jwtHelper.decodeToken(token);
       const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
       return role === 'Administrator';
+    }
+    return false;    
+  }
+
+  isUserDeliverer(): boolean{
+    const token = localStorage.getItem("token");
+    if(token !==null){
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+      return role === 'Dostavljac';
+    }
+    return false;    
+  }
+
+  isUserCustomer(): boolean{
+    const token = localStorage.getItem("token");
+    if(token !==null){
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+      return role === 'Potrosac';
     }
     return false;    
   }

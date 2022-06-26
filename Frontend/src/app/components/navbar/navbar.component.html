@@ -21,16 +21,31 @@
 
     <div class="collapse navbar-collapse" id="navbarsExample02">
       <ul class="navbar-nav mr-auto">
-        <li [hidden]='isUserAuthenticated==false' class="nav-item ">
+        <li *ngIf='isUserAuthenticated==true' class="nav-item ">
           <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home </a>
         </li>
-        <li [hidden]='isUserAuthenticated==true' class="nav-item">
+        <li *ngIf='isUserAuthenticated==false' class="nav-item">
           <a class="nav-link" routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" >Login</a>
         </li>
-        <li [hidden]='isUserAuthenticated==true' class="nav-item">
+        <li *ngIf='isUserAuthenticated==false' class="nav-item">
           <a class="nav-link" routerLink="/register" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Register</a>
         </li>
-        <li [hidden]='isUserAuthenticated==false' class="nav-item">
+        <li *ngIf='isUserAuthenticated==true' class="nav-item">
+          <a class="nav-link" routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Profile</a>
+        </li>
+        <li *ngIf='isUserAuthenticated==true && userType=="Administrator"' class="nav-item">
+          <a class="nav-link" routerLink="/verification" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Verification</a>
+        </li>
+        <li *ngIf='isUserAuthenticated==true && userType=="Administrator"' class="nav-item">
+          <a class="nav-link" routerLink="/add-new-product" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Add product</a>
+        </li>
+        <li *ngIf='isUserAuthenticated==true && userType!="Administrator"' class="nav-item">
+          <a class="nav-link" routerLink="/new-current-order" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Order now</a>
+        </li>
+        <li *ngIf='isUserAuthenticated==true' class="nav-item">
+          <a class="nav-link" routerLink="/all-orders" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">All orders</a>
+        </li>
+        <li *ngIf='isUserAuthenticated==true' class="nav-item">
           <button class="btn btn-link" style="color: #ffffff80;" (click)="logOut()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Log Out</button>
         </li>
       </ul>

@@ -29,13 +29,11 @@ const routes: Routes = [
   {
     path: "",
     component: HomePageComponent,
-    //canActivate: [AdminGuard, CustomerGuard, DelivererGuard]
     canActivate: [AuthGuard]
   },
   {
     path: "profile",
     component:  ProfileComponent,
-    //canActivate: [AdminGuard, CustomerGuard, DelivererGuard]
     canActivate: [AuthGuard]
   },
   {
@@ -46,26 +44,16 @@ const routes: Routes = [
   {
     path:"add-new-product",
     component: AddingProductsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: "new-current-order",
     component: NewCurrentOrderComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: "current-order",
-    component: CurrentOrderComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, (CustomerGuard || DelivererGuard)]
   },
   {
     path: "all-orders",
     component: AllOrdersComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: "get-order",
-    component: GetOrderComponent,
     canActivate: [AuthGuard]
   },
   {
