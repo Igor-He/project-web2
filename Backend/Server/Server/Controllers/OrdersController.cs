@@ -26,10 +26,60 @@ namespace Server.Controllers
         }
 
         // GET: api/Orders
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        [HttpPost("all-orders")]
+        public async Task<IActionResult> GetOrdersByUser(OrdersByUserDto dto)
         {
-            return await _context.Orders.ToListAsync();
+            var orders = new List<Order>();
+            if (dto.UserType == "Administrator")
+            {
+                orders = await _context.Orders.Include(x => x.Products).ThenInclude(x => x.Product).ToListAsync();
+            }
+            else if(dto.UserType=="Dostavljac")
+            {
+                orders = await _context.Orders.Where(x => x.DelivererId == dto.UserId && x.OrderStatus==OrderStatus.Delivered).Include(x => x.Products).ThenInclude(x => x.Product).ToListAsync();
+            }else if (dto.UserType == "Potrosac")
+            {
+                orders = await _context.Orders.Where(x => x.CustomerId == dto.UserId && x.OrderStatus == OrderStatus.Delivered).Include(x => x.Products).ThenInclude(x => x.Product).ToListAsync();
+
+            }
+
+            List<OrderDto> retList = new List<OrderDto>();
+            foreach (Order order in orders)
+            {
+                OrderDto ord = new OrderDto();
+                ord.Id = order.Id;
+                ord.Address = order.Address;
+                ord.Comment = order.Comment;
+                ord.CustomerId = order.CustomerId;
+                ord.DelivererId = order.DelivererId;
+                if (order.OrderStatus == OrderStatus.Ordered)
+                    ord.OrderStatus = "Ordered";
+                else if (order.OrderStatus == OrderStatus.Delivered)
+                    ord.OrderStatus = "Delivered";
+                else
+                    ord.OrderStatus = "OnTheWay";
+                ord.Price = order.Price;
+                List<ProductOrderDto> prOrd = new List<ProductOrderDto>();
+                foreach (ProductOrder prod in order.Products)
+                {
+                    ProductsDto pDto = new ProductsDto();
+                    pDto.Id = prod.Product.Id;
+                    pDto.Ingredient = prod.Product.Ingredient;
+                    pDto.Name = prod.Product.Name;
+                    pDto.Price = prod.Product.Price;
+
+                    ProductOrderDto dto1 = new ProductOrderDto();
+                    dto1.Product = pDto;
+                    dto1.Quantity = prod.Quantity;
+                    prOrd.Add(dto1);
+
+                }
+                ord.Products = prOrd;
+                retList.Add(ord);
+
+            }
+
+            return Ok(retList);
         }
 
         // GET: api/Orders/current

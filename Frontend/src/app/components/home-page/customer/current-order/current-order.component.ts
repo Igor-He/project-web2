@@ -54,17 +54,6 @@ export class CurrentOrderComponent implements OnInit {
     }else{
       return false;
     }
-    // if(date.getDay()<currentDate.getDay()){
-    //   return true;
-    // }   
-    // else if(date.getHours()<currentDate.getHours()){
-    //   return true;
-    // }else if(date.getMinutes()<currentDate.getMinutes()){
-    //   return true;
-    // }else if(date.getSeconds()< currentDate.getSeconds()){
-    //   return true;
-    // }else
-    //   return false;
   }
   setMinutesAndSeconds(date: Date, currentDate: Date){
     if(date.getMinutes()>=currentDate.getMinutes()){

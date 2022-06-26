@@ -13,6 +13,7 @@ import { FindCurrentOrderDto } from 'src/app/_interfaces/find-current-order-dto'
 import { IsNewDto } from 'src/app/_interfaces/is-new-dto';
 import { OrderDto } from 'src/app/_interfaces/order-dto';
 import { OrderForDelivererDto } from 'src/app/_interfaces/order-for-deliverer-dto';
+import { OrdersByUserDto } from 'src/app/_interfaces/orders-by-user-dto';
 import { PickUpOrderDto } from 'src/app/_interfaces/pick-up-order-dto';
 import { UserService } from '../user-service/user.service';
 
@@ -50,29 +51,12 @@ export class OrderService {
     return this.http.get<OrderForDelivererDto[]>(this.path+'/available');
   }
 
-  allOrders(userId: number): Array<Order>{
-    let list: Array<Order>=new Array<Order>();
-    // const type: UserType=this.userService.getUserType(userId);
-    // if(type==UserType.Administrator){
-    //   list=this.listOrders;
-    // }
-    // else if(type==UserType.Dostavljac)
-    // {
-    //   this.listOrders.forEach(x => {
-    //     if(x.delivererId==userId && x.status==OrderStatus.Delivered){
-    //       list.push(x);
-    //     }
-    //   });
-    // }
-    // else if (type==UserType.Potrosac)
-    // {
-    //   this.listOrders.forEach(x => {
-    //     if(x.customerId==userId && x.status==OrderStatus.Delivered){
-    //       list.push(x);
-    //     }
-    //   });
-    // }
-    return list;
+  allOrders(){
+    const dto: OrdersByUserDto={
+      userId: this.userService.getUserId(),
+      userType: this.userService.getUserType()
+    }
+    return this.http.post<OrderDto[]>(this.path+"/all-orders", dto);
   }
   changeOrder(id: string){
     return this.http.put(this.path+'/'+id, id);
