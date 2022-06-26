@@ -74,6 +74,9 @@ export class OrderService {
     // }
     return list;
   }
+  changeOrder(id: string){
+    return this.http.put(this.path+'/'+id, id);
+  }
 
   orderAcceptedByDeliverer(pickUpOrderDto:PickUpOrderDto){
     return this.http.put(this.path, pickUpOrderDto);

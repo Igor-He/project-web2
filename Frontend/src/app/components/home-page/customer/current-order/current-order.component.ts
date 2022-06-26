@@ -29,15 +29,43 @@ export class CurrentOrderComponent implements OnInit {
         if(res.deliveryTime!=null ){
           let date=new Date(res.deliveryTime);
           let currentDate:Date=new Date();
-          this.setMinutesAndSeconds(date, currentDate);
+          if(this.checkIsDelivered(date, currentDate)){
+            if(this.order.id!=null){
+              this.orderService.changeOrder(this.order.id.toString()).subscribe({
+                next: ()=>{
+                  this.orderService.sendStateChangeNotification(true);
+                },
+                error: (err: HttpErrorResponse)=>{}
+              });
+            }
+          }else{
+            this.setMinutesAndSeconds(date, currentDate);
+          }
         }
-        
       },
       error: (err: HttpErrorResponse)=>{}
     });
     this.startTimer();
   }
 
+  checkIsDelivered(date: Date, currentDate: Date): boolean{
+    if(date.getTime()< currentDate.getTime()){
+      return true;
+    }else{
+      return false;
+    }
+    // if(date.getDay()<currentDate.getDay()){
+    //   return true;
+    // }   
+    // else if(date.getHours()<currentDate.getHours()){
+    //   return true;
+    // }else if(date.getMinutes()<currentDate.getMinutes()){
+    //   return true;
+    // }else if(date.getSeconds()< currentDate.getSeconds()){
+    //   return true;
+    // }else
+    //   return false;
+  }
   setMinutesAndSeconds(date: Date, currentDate: Date){
     if(date.getMinutes()>=currentDate.getMinutes()){
       if(date.getSeconds()>=currentDate.getSeconds()){
@@ -67,7 +95,16 @@ export class CurrentOrderComponent implements OnInit {
           this.minutes--;
         }
         if(this.seconds==0 && this.minutes==0){
-          this.orderService.sendStateChangeNotification(true);
+          
+          if(this.order.id!=null){
+            this.orderService.changeOrder(this.order.id.toString()).subscribe({
+              next: ()=>{
+                this.orderService.sendStateChangeNotification(true);
+              },
+              error: (err: HttpErrorResponse)=>{}
+            });
+          }
+          
           clearInterval(this.interval);
         }
     },1000)

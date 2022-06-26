@@ -90,7 +90,30 @@ namespace Server.Controllers
             }
             return Ok(isNew);
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> ChangeOrder(string id)
+        {
+            var order = await _context.Orders.FindAsync(int.Parse(id));
+            if (order == null)
+            {
+                return BadRequest();
+            }
+            order.OrderStatus = OrderStatus.Delivered;
+            _context.Entry(order).State = EntityState.Modified;
 
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+
+
+        }
         [HttpGet("available")]
         public async Task<ActionResult> GetAvailableOrders()
         {
@@ -126,8 +149,7 @@ namespace Server.Controllers
 
             return Ok(retList);
         }
-        // PUT: api/Orders/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: api/Orders
         [HttpPut]
         public async Task<IActionResult> PutOrder(PickUpOrderDto orderDto)
         {
@@ -188,27 +210,6 @@ namespace Server.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
-        }
-
-        // DELETE: api/Orders/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(int id)
-        {
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool OrderExists(int id)
-        {
-            return _context.Orders.Any(e => e.Id == id);
         }
     }
 }

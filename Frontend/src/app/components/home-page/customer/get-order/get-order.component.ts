@@ -33,7 +33,7 @@ export class GetOrderComponent implements OnInit {
 
     this.orderService.orderAcceptedByDeliverer(pickUpOrderDto).subscribe({
       next: ()=>{
-
+        this.orderService.sendStateChangeNotification(false);
       },
       error: (err:HttpErrorResponse)=>{}
     });
