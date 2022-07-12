@@ -1,8 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
-body {
+/* body {
     background-color: #ffffff;
      /* background-image: url('https://hougumlaw.com/wp-content/uploads/2016/05/light-website-backgrounds-light-color-background-images-light-color-background-images-for-website-1024x640.jpg'); */
 
-    }
+    /*} */
 
+    body {
+        /* Created with https://www.css-gradient.com */
+        background-color: #ffffff;
+        /* background: #23ec55;
+        background: -webkit-radial-gradient(top right, #23ec55, #2d51c1);
+        background: -moz-radial-gradient(top right, #23ec55, #2d51c1);
+        background: radial-gradient(to bottom left, #23ec55, #2d51c1); */
+      }
