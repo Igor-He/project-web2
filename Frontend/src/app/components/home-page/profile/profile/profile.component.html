@@ -1,4 +1,4 @@
-<form *ngIf="onInit" [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()">
+<!-- <form *ngIf="onInit" [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()">
     <div class="row">
         <div class="col-sm-6 form-group">
             <label for="username">Korisnicko ime</label>
@@ -67,12 +67,8 @@
     <div class="row">
         <div [hidden]="!isReadOnly" class="col-sm-6 form-group">
             <label for="image">Slika</label>
-            <!-- <input type="file" id="image" class="form-control" placeholder="Unesite adresu" formControlName="image"> -->
             <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;"><img width="140" height="140" src="{{'data:image/jpg;base64,' + image.data}}" /></span>
                    
-            <!-- <div *ngIf="registrationForm.controls.address.invalid && registrationForm.controls.address.touched">
-                Polje je obavezno!
-            </div> -->
         </div>
         <div *ngIf="!isReadOnly" class="col-sm-6 form-group">
             <label for="image">Slika</label>
@@ -88,4 +84,117 @@
             <button [disabled]="!updateProfileForm.valid || isReadOnly==true " class="btn btn-success" type="submit">Sacuvaj izmene</button>
         </div>
     </div>
-</form>
+</form> -->
+
+
+<section class="text-center">
+    <!-- Background image /* background-image: url('https://cdn.wallpapersafari.com/86/39/8RAp7S.jpg'); */-->
+    <div class="p-5 bg-image" style="
+         
+          height: 120px;
+          "></div> 
+    <!-- Background image-->
+  
+    <div class="card mx-4 mx-md-5 shadow-5-strong" style="
+          margin-top: -100px;
+          background: hsla(0, 0%, 100%, 0.8);
+          backdrop-filter: blur(30px);
+          ">
+      <div class="card-body py-5 px-md-5">
+  
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-8">
+            <h2 class="fw-bold mb-5">Profil</h2>
+            <form *ngIf="onInit" [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="username">Korisnicko ime:</label>
+                <input type="text" [readonly]="isReadOnly"  id="username" placeholder="Unesite korisnicko ime" class="form-control" formControlName="username">
+                <em *ngIf="updateProfileForm.controls.username.invalid && updateProfileForm.controls.username.touched">
+                    Polje je obavezno!
+                </em>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="email">E-mail</label>
+                    <input type="email" readonly id="email" placeholder="Unesite email" class="form-control" formControlName="email">
+                  </div>
+                </div>
+              </div>
+              <!--  -->
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="name">Ime</label>
+                    <input type="text" [readonly]="isReadOnly" id="name" class="form-control"  placeholder="Unesite ime" formControlName="name">
+                    <div *ngIf="updateProfileForm.controls.name.invalid && updateProfileForm.controls.name.touched">
+                        Polje je obavezno!
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="surname">Prezime</label>
+                    <input type="text" [readonly]="isReadOnly" id="surname" class="form-control" placeholder="Unesite prezime" formControlName="surname">
+                    <div *ngIf="updateProfileForm.controls.surname.invalid && updateProfileForm.controls.surname.touched">
+                        Polje je obavezno!
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--  -->
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="dateOfBirth">Datum rodjenja</label>
+                    <input type="date" [readonly]="isReadOnly" id="dateOfBirth" value="{{ user.dateOfBirth }}" class="form-control"  placeholder="Unesite datum rodjenja" formControlName="dateOfBirth">
+                    <div *ngIf="updateProfileForm.controls.dateOfBirth.invalid && updateProfileForm.controls.dateOfBirth.touched">
+                        Polje je obavezno!
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="address">Adresa</label>
+                    <input type="text" [readonly]="isReadOnly"  id="address" class="form-control" placeholder="Unesite adresu" formControlName="address">
+                    <div *ngIf="updateProfileForm.controls.address.invalid && updateProfileForm.controls.address.touched">
+                        Polje je obavezno!
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--  -->
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div [hidden]="!isReadOnly" class="form-outline">
+                    <label for="image">Slika</label>
+                    <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;"><img width="140" height="140" src="{{'data:image/jpg;base64,' + image.data}}" /></span>
+                  </div>
+                  <div *ngIf="!isReadOnly" class="form-outline">
+                    <label for="image">Slika</label>
+                    <input type="file" id="file" class="form-control" (change)="onFileSelected($event)">
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="type">Tip korisnika</label>
+                    <input type="text" id="type" class="form-control" readonly formControlName="type">
+                    </div>
+                </div>
+              </div>
+              <!-- Submit button -->
+              <button [hidden]="!isReadOnly" type="button"  (click)="onEdit()"  class="btn btn-primary btn-block mb-4">
+                Izmeni
+              </button>
+
+              <button *ngIf="!isReadOnly" [disabled]="!updateProfileForm.valid || isReadOnly==true " type="submit" (click)="onEdit()"  class="btn btn-primary btn-block mb-4">
+                Sacuvaj izmene
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

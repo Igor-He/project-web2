@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
     <h1>Registracija</h1>
     <div *ngIf="showError" class="alert alert-danger" role="alert">
         <span [innerHTML]="errorMessage"></span>
@@ -95,9 +95,6 @@
             <div class="col-sm-6 form-group">
                 <label for="file">Slika</label>
                 <input type="file" id="file" class="form-control" (change)="onFileSelected($event)">
-                <!-- <div *ngIf="registrationForm.controls.address.invalid && registrationForm.controls.address.touched">
-                    Polje je obavezno!
-                </div> -->
             </div>
         </div>
         <br>
@@ -110,5 +107,154 @@
             </div>
         </div>
     </form>
+</div> -->
 
-</div>
+
+
+<!-- Section: Design Block -->
+<section class="text-center">
+    <!-- Background image /* background-image: url('https://cdn.wallpapersafari.com/86/39/8RAp7S.jpg'); */-->
+    <div class="p-5 bg-image" style="
+         
+          height: 120px;
+          "></div> 
+    <!-- Background image-->
+  
+    <div class="card mx-4 mx-md-5 shadow-5-strong" style="
+          margin-top: -100px;
+          background: hsla(0, 0%, 100%, 0.8);
+          backdrop-filter: blur(30px);
+          ">
+      <div class="card-body py-5 px-md-5">
+  
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-8">
+            <h2 class="fw-bold mb-5">Sign up now</h2>
+            <div *ngIf="showError" class="alert alert-danger" role="alert">
+                <span [innerHTML]="errorMessage"></span>
+            </div>
+            <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="username">Korisnicko ime:</label>
+                    <input type="text" id="username" placeholder="Unesite korisnicko ime" class="form-control" formControlName="username">
+                    <em *ngIf="registrationForm.controls.username.invalid && registrationForm.controls.username.touched">
+                        Polje je obavezno!
+                    </em>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" placeholder="Unesite email" class="form-control" formControlName="email">
+                    <em *ngIf="registrationForm.controls.email.invalid && registrationForm.controls.email.touched">
+                        Polje je obavezno!
+                    </em>
+                  </div>
+                </div>
+              </div>
+              <!--  -->
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="password">Lozinka:</label>
+                    <input type="password" id="password" placeholder="Unesite lozinku" class="form-control" formControlName="password">
+                    <em *ngIf="registrationForm.controls.password.invalid && registrationForm.controls.password.touched">
+                        Polje je obavezno!
+                    </em>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="confirm_password">Potvrda lozinke:</label>
+                    <input type="password" id="confirm_password" placeholder="Potvdrite lozinku" class="form-control" formControlName="confirm_password">
+                    <em *ngIf="registrationForm.controls.confirm_password.invalid && registrationForm.controls.confirm_password.touched && registrationForm.controls.confirm_password.hasError('required')">
+                        Polje je obavezno!
+                    </em>
+                    <em *ngIf="registrationForm.controls.confirm_password.hasError('mustMatch')">
+                        Lozinke se ne poklapaju!
+                    </em>
+                  </div>
+                </div>
+              </div>
+              <!--  -->
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="name">Ime:</label>
+                    <input type="text" id="name" class="form-control" placeholder="Unesite ime" formControlName="name">
+                    <em *ngIf="registrationForm.controls.name.invalid && registrationForm.controls.name.touched">
+                        Polje je obavezno!
+                    </em>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="surname">Prezime:</label>
+                    <input type="text" id="surname" class="form-control" placeholder="Unesite prezime" formControlName="surname">
+                    <em *ngIf="registrationForm.controls.surname.invalid && registrationForm.controls.surname.touched">
+                        Polje je obavezno!
+                    </em>
+                  </div>
+                </div>
+              </div>
+              <!--  -->
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="dateOfBirth">Datum rodjenja:</label>
+                    <input type="date" id="dateOfBirth" class="form-control" placeholder="Unesite datum rodjenja" formControlName="dateOfBirth">
+                    <em *ngIf="registrationForm.controls.dateOfBirth.invalid && registrationForm.controls.dateOfBirth.touched">
+                        Polje je obavezno!
+                    </em>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="address">Adresa:</label>
+                    <input type="text" id="address" class="form-control" placeholder="Unesite adresu" formControlName="address">
+                    <em *ngIf="registrationForm.controls.address.invalid && registrationForm.controls.address.touched">
+                        Polje je obavezno!
+                    </em>
+                  </div>
+                </div>
+              </div>
+              <!--  -->
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="type">Tip korisnika:</label>
+                    <select class="form-control"  formControlName="type" >
+                        <option *ngFor="let option of list" [value]="option" >{{option}}</option>
+                    </select>
+                    <em *ngIf="registrationForm.controls.type.invalid && registrationForm.controls.type.touched">
+                        Polje je obavezno!
+                    </em>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="form-outline">
+                    <label for="file">Odaberite sliku:</label>
+                    <input type="file" id="file" class="form-control" (change)="onFileSelected($event)">
+                    </div>
+                </div>
+              </div>
+              <!-- Submit button -->
+              <button type="submit" [disabled]="!registrationForm.valid"  class="btn btn-primary btn-block mb-4">
+                Sign up
+              </button>
+  
+              <!-- Register buttons -->
+              <div class="text-center">
+                <p>or sign up with:</p>
+                <button type="button" class="btn btn-link btn-floating mx-1">
+                  <i class="fab fa-facebook-f"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
