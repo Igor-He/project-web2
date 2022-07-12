@@ -21,13 +21,15 @@ export class RegistrationComponent implements OnInit {
   list=new Array<string>();
   errorMessage: string = '';
   showError: boolean;
-  selectedFile! : File
+  selectedFile! : File;
+  photoAdded: boolean;
   constructor(private userService:UserService, private router:Router) { 
     
   }
 
   ngOnInit(): void {
     this.showError = false;
+    this.photoAdded=false;
     this.list.push("Potrosač");
     this.list.push("Dostavljač");
     this.initForm();
@@ -53,6 +55,7 @@ export class RegistrationComponent implements OnInit {
   onFileSelected(event : any)
   {
     this.selectedFile = event.target.files[0];
+    this.photoAdded=true;
 
   }
   onSubmit() {
@@ -94,15 +97,20 @@ export class RegistrationComponent implements OnInit {
     this.userService.registerUser(user)
     .subscribe({
       next: (_) => {
-        const filedata = new FormData();
-        filedata.append(this.selectedFile.name,this.selectedFile);
-        filedata.append("id", email);
-        this.userService.uploadPhoto(filedata).subscribe({
-          next: ()=>{
-            this.router.navigateByUrl('/login');
-          },
-          error: (err: HttpErrorResponse)=>{}
-        });
+        if(this.photoAdded){
+          const filedata = new FormData();
+          filedata.append(this.selectedFile.name,this.selectedFile);
+          filedata.append("id", email);
+          this.userService.uploadPhoto(filedata).subscribe({
+            next: ()=>{
+              this.router.navigateByUrl('/login');
+            },
+            error: (err: HttpErrorResponse)=>{}
+          });
+        }else{
+          this.router.navigateByUrl('/login');
+        }
+        
         
       },
       error: (err: HttpErrorResponse) => {

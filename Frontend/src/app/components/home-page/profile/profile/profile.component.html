@@ -65,7 +65,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 form-group">
+        <div [hidden]="!isReadOnly" class="col-sm-6 form-group">
             <label for="image">Slika</label>
             <!-- <input type="file" id="image" class="form-control" placeholder="Unesite adresu" formControlName="image"> -->
             <span style="color: rgb(166, 168, 170); font: bold 8pt Arial;"><img width="140" height="140" src="{{'data:image/jpg;base64,' + image.data}}" /></span>
@@ -73,6 +73,10 @@
             <!-- <div *ngIf="registrationForm.controls.address.invalid && registrationForm.controls.address.touched">
                 Polje je obavezno!
             </div> -->
+        </div>
+        <div *ngIf="!isReadOnly" class="col-sm-6 form-group">
+            <label for="image">Slika</label>
+            <input type="file" id="file" class="form-control" (change)="onFileSelected($event)">
         </div>
     </div>
     <br>

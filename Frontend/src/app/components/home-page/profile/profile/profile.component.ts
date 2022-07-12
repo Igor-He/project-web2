@@ -18,12 +18,15 @@ export class ProfileComponent implements OnInit {
   isUpdated: Boolean;
   onInit: boolean;
   image: Image;
+  selectedFile! : File;
+  photoEdit: boolean=false;
   constructor(private userService:UserService) { 
     this.isReadOnly=true;
     this.onInit=false;
   }
 
   ngOnInit(): void {
+    this.photoEdit=false;
     this.userService.getUserById().subscribe({
       next:(res: UserProfileDto)=>{
         this.userService.getPhoto().subscribe({
@@ -72,6 +75,13 @@ formatDate(date: Date) {
 onEdit(){
   this.isReadOnly=false;
 }
+
+onFileSelected(event : any)
+  {
+    this.selectedFile = event.target.files[0];
+    this.photoEdit=true;
+
+  }
 onSubmit(){
   const username=this.updateProfileForm.controls['username'].value;
   const email=this.updateProfileForm.controls['email'].value;
@@ -95,8 +105,21 @@ onSubmit(){
   };
   this.userService.editUserById(userProfile).subscribe({
     next: ()=>{
-      this.user=userProfile;
+      if(this.photoEdit){
+        const filedata = new FormData();
+        filedata.append(this.selectedFile.name,this.selectedFile);
+        filedata.append("id", email);
+        this.userService.changePhoto(filedata).subscribe({
+          next:()=>{
+            window.location.reload();
+          },
+          error:(err: HttpErrorResponse)=>{}
+        });
+      }else{
+        this.user=userProfile;
       this.isReadOnly=true;
+      }
+      
     },
     error: (err:HttpErrorResponse)=>{
     }

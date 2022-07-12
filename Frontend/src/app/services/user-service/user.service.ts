@@ -136,6 +136,10 @@ export class UserService {
   public getPhoto=()=>{
     return this.http.get<Image>('https://localhost:5001/api/images/'+this.getUserId());
   }
+
+  public changePhoto(formData: FormData){
+    return this.http.put('https://localhost:5001/api/images/', formData);
+  }
   public validateConfirmPassword = (passwordControl: AbstractControl): ValidatorFn => {
     return (confirmationControl: AbstractControl) : { [key: string]: boolean } | null => {
       const confirmValue = confirmationControl.value;

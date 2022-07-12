@@ -41,7 +41,7 @@ namespace Server.Controllers
 
             if (image == null)
             {
-                return NotFound();
+                return new Image();
             }
 
             return image;
@@ -49,12 +49,21 @@ namespace Server.Controllers
 
         // PUT: api/Images/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutImage(string id, Image image)
+        [HttpPut]
+        public async Task<IActionResult> PutImage()
         {
-            if (id != image.UserId)
+            Image image = new Image();
+
+            if (Request.Form.Files.Count > 0)
             {
-                return BadRequest();
+
+                var file = Request.Form.Files[0];
+                using (var stream = new MemoryStream())
+                {
+                    await file.CopyToAsync(stream);
+                    image.Data = stream.ToArray();
+                    image.UserId = Request.Form["id"];
+                }
             }
 
             _context.Entry(image).State = EntityState.Modified;
@@ -65,9 +74,37 @@ namespace Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ImageExists(id))
+                if (!ImageExists(image.UserId))
                 {
-                    return NotFound();
+                    if (Request.Form.Files.Count > 0)
+                    {
+                        string id = Request.Form["id"];
+                        var file = Request.Form.Files[0];
+                        using (var stream = new MemoryStream())
+                        {
+                            await file.CopyToAsync(stream);
+                            image.Data = stream.ToArray();
+                            image.UserId = id;
+                        }
+                    }
+                    _context.Image.Add(image);
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateException)
+                    {
+                        if (ImageExists(image.UserId))
+                        {
+                            return Conflict();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+
+                    return Ok();
                 }
                 else
                 {
