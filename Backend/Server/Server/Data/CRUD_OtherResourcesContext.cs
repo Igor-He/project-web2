@@ -15,5 +15,6 @@ namespace Server.Data
         public DbSet<Server.Models.Product> Product { get; set; }
         public DbSet<ProductOrder> ProductOrders { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Server.Models.Image> Image { get; set; }
     }
 }

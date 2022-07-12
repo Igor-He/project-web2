@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { User } from 'src/app/entities/user/user';
+import { Image } from 'src/app/entities/image/image';
 import { UserStatus } from 'src/app/entities/enums/user-status.enum';
 import { UserType } from 'src/app/entities/enums/user-type.enum';
 import { HttpClient } from '@angular/common/http';
@@ -128,6 +128,13 @@ export class UserService {
   }
   public registerUser = (body: UserForRegistrationDto) => {
     return this.http.post<RegistrationResponseDto> (this.path+"/registration", body);
+  }
+
+  public uploadPhoto= (formData: FormData)=>{
+    return this.http.post('https://localhost:5001/api/images', formData);
+  }
+  public getPhoto=()=>{
+    return this.http.get<Image>('https://localhost:5001/api/images/'+this.getUserId());
   }
   public validateConfirmPassword = (passwordControl: AbstractControl): ValidatorFn => {
     return (confirmationControl: AbstractControl) : { [key: string]: boolean } | null => {

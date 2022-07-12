@@ -93,8 +93,8 @@
         </div>
         <div class="row">
             <div class="col-sm-6 form-group">
-                <label for="image">Slika</label>
-                <input type="file" id="image" class="form-control" placeholder="Unesite adresu" formControlName="image">
+                <label for="file">Slika</label>
+                <input type="file" id="file" class="form-control" (change)="onFileSelected($event)">
                 <!-- <div *ngIf="registrationForm.controls.address.invalid && registrationForm.controls.address.touched">
                     Polje je obavezno!
                 </div> -->

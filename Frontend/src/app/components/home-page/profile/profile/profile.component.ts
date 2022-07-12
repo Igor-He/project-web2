@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Image } from 'src/app/entities/image/image';
 import { User } from 'src/app/entities/user/user';
 import { UserService } from 'src/app/services/user-service/user.service';
 import { UserProfileDto } from 'src/app/_interfaces/user-profile-dto';
@@ -16,6 +17,7 @@ export class ProfileComponent implements OnInit {
   isReadOnly : Boolean;
   isUpdated: Boolean;
   onInit: boolean;
+  image: Image;
   constructor(private userService:UserService) { 
     this.isReadOnly=true;
     this.onInit=false;
@@ -24,9 +26,19 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUserById().subscribe({
       next:(res: UserProfileDto)=>{
-        this.user=res;
-        this.initForm();
-        this.onInit=true;
+        this.userService.getPhoto().subscribe({
+          next:(data)=>{
+            this.user=res;
+            this.image=data;
+            this.initForm();
+            this.onInit=true;
+            console.log(data);
+          },
+          error: (err: HttpErrorResponse)=>{
+
+          }
+        });
+        
       },
       error: (err: HttpErrorResponse)=>{}
     });

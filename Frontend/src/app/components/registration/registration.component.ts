@@ -21,6 +21,7 @@ export class RegistrationComponent implements OnInit {
   list=new Array<string>();
   errorMessage: string = '';
   showError: boolean;
+  selectedFile! : File
   constructor(private userService:UserService, private router:Router) { 
     
   }
@@ -49,6 +50,11 @@ export class RegistrationComponent implements OnInit {
     this.registrationForm.get('confirm_password')?.setValidators([Validators.required, this.userService.validateConfirmPassword(this.registrationForm?.get('password') as FormGroup)]);
   }
 
+  onFileSelected(event : any)
+  {
+    this.selectedFile = event.target.files[0];
+
+  }
   onSubmit() {
     const username=this.registrationForm.controls['username'].value;
     const email=this.registrationForm.controls['email'].value;
@@ -87,7 +93,18 @@ export class RegistrationComponent implements OnInit {
     console.log(user);
     this.userService.registerUser(user)
     .subscribe({
-      next: (_) => this.router.navigateByUrl('/login'),
+      next: (_) => {
+        const filedata = new FormData();
+        filedata.append(this.selectedFile.name,this.selectedFile);
+        filedata.append("id", email);
+        this.userService.uploadPhoto(filedata).subscribe({
+          next: ()=>{
+            this.router.navigateByUrl('/login');
+          },
+          error: (err: HttpErrorResponse)=>{}
+        });
+        
+      },
       error: (err: HttpErrorResponse) => {
         this.errorMessage = err.message;
         this.showError = true;
