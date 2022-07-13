@@ -5,12 +5,12 @@
           <div class="card border-top border-bottom border-3" style="border-color: #f37a27 !important;">
             <div class="card-body p-5">
   
-              <p class="lead fw-bold mb-5" style="color: #f37a27;">Trenutna porudzbina</p>
+              <p class="lead fw-bold mb-5" style="color: #f37a27;">Trenutna porudžbina</p>
   
               <div class="row">
                 <div class="col mb-3">
                   <p class="small text-muted mb-1">Vreme do dostave</p>
-                  <p *ngIf="order.orderStatus=='Ordered'">Ceka se dostavljac</p> 
+                  <p *ngIf="order.orderStatus=='Ordered'">Čeka se dostavljač</p> 
                   <p *ngIf="order.orderStatus=='OnTheWay'">{{minutes}}:{{seconds}}</p>
                 </div>
                 <div class="col mb-3">
