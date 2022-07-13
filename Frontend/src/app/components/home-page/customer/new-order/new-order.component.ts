@@ -45,6 +45,32 @@ export class NewOrderComponent implements OnInit {
     });
 
   }
+  deleteFromCart(prod:ProductsDto){
+    const newCart: ProductOrderDto[]=[];
+    this.cart.forEach((x, index)=>{
+      if(x.product==prod){
+        if(x.quantity>1){
+          x.quantity--;
+          this.price-=x.product.price;
+          this.priceDeliver-=x.product.price;
+        }
+        else{
+          delete this.cart[index];
+          this.price-=x.product.price;
+          this.priceDeliver-=x.product.price;
+          this.cart.forEach(x=>{
+            if(x.quantity>0){
+              newCart.push(x);
+              
+            }
+          });
+          this.cart=newCart;
+        }
+        
+
+      }
+    })
+  }
   addToCart(prod:ProductsDto){
     let exist=false;
     this.cart.forEach(x => {
