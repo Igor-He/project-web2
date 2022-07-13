@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  path: "http://localhost:44347/api/",
+  pathUsers: "https://localhost:5001/api/users",
+  pathImages: 'https://localhost:5001/api/images',
+  pathProducts: "https://localhost:5001/api/products",
+  pathOrders: "https://localhost:5001/api/orders",
   production: false
 };
 

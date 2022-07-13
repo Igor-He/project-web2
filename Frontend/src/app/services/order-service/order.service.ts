@@ -15,13 +15,14 @@ import { OrderDto } from 'src/app/_interfaces/order-dto';
 import { OrderForDelivererDto } from 'src/app/_interfaces/order-for-deliverer-dto';
 import { OrdersByUserDto } from 'src/app/_interfaces/orders-by-user-dto';
 import { PickUpOrderDto } from 'src/app/_interfaces/pick-up-order-dto';
+import { environment } from 'src/environments/environment';
 import { UserService } from '../user-service/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  path: string="https://localhost:5001/api/orders";
+  path: string=environment.pathOrders;
   private newCurrentChangeSub = new Subject<boolean>()
   public newCurrentChanged = this.newCurrentChangeSub.asObservable();
 

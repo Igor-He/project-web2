@@ -11,12 +11,13 @@ import { Subject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserProfileDto } from 'src/app/_interfaces/user-profile-dto';
 import { UserForLoginDto } from 'src/app/_interfaces/user-for-login-dto';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  path: string="https://localhost:5001/api/users";
+  path: string=environment.pathUsers;
   private authChangeSub = new Subject<boolean>()
   public authChanged = this.authChangeSub.asObservable();
 
@@ -145,14 +146,14 @@ export class UserService {
   }
 
   public uploadPhoto= (formData: FormData)=>{
-    return this.http.post('https://localhost:5001/api/images', formData);
+    return this.http.post(environment.pathImages, formData);
   }
   public getPhoto=()=>{
-    return this.http.get<Image>('https://localhost:5001/api/images/'+this.getUserId());
+    return this.http.get<Image>(environment.pathImages+'/'+this.getUserId());
   }
 
   public changePhoto(formData: FormData){
-    return this.http.put('https://localhost:5001/api/images/', formData);
+    return this.http.put(environment.pathImages, formData);
   }
   public validateConfirmPassword = (passwordControl: AbstractControl): ValidatorFn => {
     return (confirmationControl: AbstractControl) : { [key: string]: boolean } | null => {

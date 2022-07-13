@@ -12,7 +12,7 @@ using Server.Models;
 
 namespace Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/images")]
     [ApiController]
     public class ImagesController : ControllerBase
     {
@@ -23,13 +23,6 @@ namespace Server.Controllers
         {
             _context = context;
             _userManager = userManager;
-        }
-
-        // GET: api/Images
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Image>>> GetImage()
-        {
-            return await _context.Image.ToListAsync();
         }
 
         // GET: api/Images/5
@@ -150,22 +143,6 @@ namespace Server.Controllers
             }
 
             return Ok();
-        }
-
-        // DELETE: api/Images/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteImage(string id)
-        {
-            var image = await _context.Image.FindAsync(id);
-            if (image == null)
-            {
-                return NotFound();
-            }
-
-            _context.Image.Remove(image);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
         private bool ImageExists(string id)
