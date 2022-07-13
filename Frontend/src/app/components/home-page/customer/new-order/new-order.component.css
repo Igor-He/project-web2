@@ -2,3 +2,16 @@
 {
     height: 100px;
 }
+
+div#main {
+    /* border: solid 2px rgb(220, 220, 224); */
+    margin-left: 70%;
+    }
+    div#sidebar {
+    width: 55%;
+    position: absolute;
+    margin-left: 3%;
+    }
+    .wrapper {
+        margin: 10vh;
+      }

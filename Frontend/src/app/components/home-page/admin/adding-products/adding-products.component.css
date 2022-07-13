@@ -1,0 +1,14 @@
+.wrapper {
+    margin: 10vh;
+  }
+em{
+    color: #e71515;
+    font-weight: bold;
+}
+
+.ng-invalid.ng-touched{
+    border-color: red;
+}
+h2{
+    color: green;
+}

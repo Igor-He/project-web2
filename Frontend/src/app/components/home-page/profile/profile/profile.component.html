@@ -155,18 +155,18 @@
                   <div class="form-outline">
                     <label for="name">Ime:</label>
                     <input type="text" [readonly]="isReadOnly" id="name" class="form-control"  placeholder="Unesite ime" formControlName="name">
-                    <div *ngIf="updateProfileForm.controls.name.invalid && updateProfileForm.controls.name.touched">
+                    <em *ngIf="updateProfileForm.controls.name.invalid && updateProfileForm.controls.name.touched">
                         Polje je obavezno!
-                    </div>
+                    </em>
                   </div>
                 </div>
                 <div class="col-md-6 mb-4">
                   <div class="form-outline">
                     <label for="surname">Prezime:</label>
                     <input type="text" [readonly]="isReadOnly" id="surname" class="form-control" placeholder="Unesite prezime" formControlName="surname">
-                    <div *ngIf="updateProfileForm.controls.surname.invalid && updateProfileForm.controls.surname.touched">
+                    <em *ngIf="updateProfileForm.controls.surname.invalid && updateProfileForm.controls.surname.touched">
                         Polje je obavezno!
-                    </div>
+                    </em>
                   </div>
                 </div>
               </div>
@@ -176,18 +176,18 @@
                   <div class="form-outline">
                     <label for="dateOfBirth">Datum rodjenja:</label>
                     <input type="date" [readonly]="isReadOnly" id="dateOfBirth" value="{{ user.dateOfBirth }}" class="form-control"  placeholder="Unesite datum rodjenja" formControlName="dateOfBirth">
-                    <div *ngIf="updateProfileForm.controls.dateOfBirth.invalid && updateProfileForm.controls.dateOfBirth.touched">
+                    <em *ngIf="updateProfileForm.controls.dateOfBirth.invalid && updateProfileForm.controls.dateOfBirth.touched">
                         Polje je obavezno!
-                    </div>
+                    </em>
                   </div>
                 </div>
                 <div class="col-md-6 mb-4">
                   <div class="form-outline">
                     <label for="address">Adresa:</label>
                     <input type="text" [readonly]="isReadOnly"  id="address" class="form-control" placeholder="Unesite adresu" formControlName="address">
-                    <div *ngIf="updateProfileForm.controls.address.invalid && updateProfileForm.controls.address.touched">
+                    <em *ngIf="updateProfileForm.controls.address.invalid && updateProfileForm.controls.address.touched">
                         Polje je obavezno!
-                    </div>
+                    </em>
                   </div>
                 </div>
               </div>
