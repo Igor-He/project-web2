@@ -13,3 +13,12 @@ height: calc(100% - 73px);
 height: 100%;
 }
 }
+
+em{
+    color: #e71515;
+    font-weight: bold;
+}
+
+.ng-invalid.ng-touched{
+    border-color: red;
+}
