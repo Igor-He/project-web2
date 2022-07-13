@@ -63,7 +63,21 @@ export class UserService {
     }
     return false;    
   }
-
+  isUserApproved(): boolean {
+    const token = localStorage.getItem("token");
+    if(token !==null){
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      const role = decodedToken['UserStatus']
+      if(role=='Approved'){
+        return true;
+      }else{
+        alert('Vaš nalog je ili odbijen ili još uvek nije odobren! Pogledajte Vaš status u okviru svog profila!');
+        return false;
+      }
+    }
+    
+    return false;    
+  }
   isUserDeliverer(): boolean{
     const token = localStorage.getItem("token");
     if(token !==null){

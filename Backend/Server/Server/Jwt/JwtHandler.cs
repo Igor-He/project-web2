@@ -38,7 +38,8 @@ namespace Server.Jwt
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Email),
-                new Claim("UserId", user.Id)
+                new Claim("UserId", user.Id),
+                new Claim("UserStatus", user.Status.ToString())
             };
 
             var roles = await _userManager.GetRolesAsync(user);

@@ -10,7 +10,7 @@ export class CustomerGuard implements CanActivate {
   constructor(private userService: UserService, private router: Router) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-    if(this.userService.isUserCustomer() || this.userService.isUserDeliverer()){
+    if((this.userService.isUserCustomer() || this.userService.isUserDeliverer()) && this.userService.isUserApproved()){
       return true;
     }
       
