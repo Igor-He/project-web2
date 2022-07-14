@@ -56,23 +56,24 @@ export class CurrentOrderComponent implements OnInit {
     }
   }
   setMinutesAndSeconds(date: Date, currentDate: Date){
-    if(date.getMinutes()>=currentDate.getMinutes()){
-      if(date.getSeconds()>=currentDate.getSeconds()){
-        this.minutes=Math.abs((date.getMinutes())-currentDate.getMinutes());
-        this.seconds=Math.abs(date.getSeconds()-currentDate.getSeconds());
-      }else if(date.getSeconds()<currentDate.getSeconds()){
-        this.minutes=Math.abs((date.getMinutes()-1)-currentDate.getMinutes());
-        this.seconds=(60-currentDate.getSeconds())+date.getSeconds();
+      if(date.getMinutes()>=currentDate.getMinutes()){
+        if(date.getSeconds()>=currentDate.getSeconds()){
+          this.minutes=Math.abs((date.getMinutes())-currentDate.getMinutes());
+          this.seconds=Math.abs(date.getSeconds()-currentDate.getSeconds());
+        }else if(date.getSeconds()<currentDate.getSeconds()){
+          this.minutes=Math.abs((date.getMinutes()-1)-currentDate.getMinutes());
+          this.seconds=(60-currentDate.getSeconds())+date.getSeconds();
+        }
+      }else if(date.getMinutes()<currentDate.getMinutes()){
+        if(date.getSeconds()>=currentDate.getSeconds()){
+          this.minutes=(60-currentDate.getMinutes())+date.getMinutes();
+          this.seconds=Math.abs(date.getSeconds()-currentDate.getSeconds());
+        }else if(date.getSeconds()<currentDate.getSeconds()){
+          this.minutes=(60-currentDate.getMinutes())+date.getMinutes()-1;
+          this.seconds=(60-currentDate.getSeconds())+date.getSeconds();
+        }
       }
-    }else if(date.getMinutes()<currentDate.getMinutes()){
-      if(date.getSeconds()>=currentDate.getSeconds()){
-        this.minutes=(60-currentDate.getMinutes())+date.getMinutes();
-        this.seconds=Math.abs(date.getSeconds()-currentDate.getSeconds());
-      }else if(date.getSeconds()<currentDate.getSeconds()){
-        this.minutes=(60-currentDate.getMinutes())+date.getMinutes();
-        this.seconds=(60-currentDate.getSeconds())+date.getSeconds();
-      }
-    }
+    
   }
   startTimer() {
     this.interval = setInterval(() => {
